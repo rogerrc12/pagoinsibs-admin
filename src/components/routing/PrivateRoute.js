@@ -9,7 +9,6 @@ const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
   <Route
     {...rest}
     component={(props) => {
-      console.log(props.location);
       return isAuthenticated ? (
         <Component {...props} />
       ) : (

@@ -27,6 +27,7 @@ export const generateCiserFile = (bank_id, history) => async (dispatch) => {
     const res = await axios.get(`/api/admin/bank-payments/create-ciser?bank_id=${bank_id}`, {
       responseType: "arraybuffer",
     });
+
     const fileName = res.headers["content-disposition"].split("=")[1].replace("_", "");
 
     fileDownload(res.data, fileName);
@@ -38,9 +39,10 @@ export const generateCiserFile = (bank_id, history) => async (dispatch) => {
       history.push("/");
     }, 2000);
   } catch (error) {
-    const { message } = JSON.parse(Buffer.from(error.response.data).toString("utf8"));
-    if (message) dispatch(setAlert({ msg: message, icon: "error" }));
-    return dispatch({ type: actionTypes.REMOVE_LOADING });
+    console.log(error);
+    // const { message } = JSON.parse(Buffer.from(error.response.data).toString("utf8"));
+    // if (message) dispatch(setAlert({ msg: message, icon: "error" }));
+    // return dispatch({ type: actionTypes.REMOVE_LOADING });
   }
 };
 
