@@ -25,12 +25,13 @@ export const generateCiserFile = (bank_id, history) => async (dispatch) => {
 
   try {
     const res = await axios.get(`/api/admin/bank-payments/create-ciser?bank_id=${bank_id}`, {
-      responseType: "arraybuffer",
+      responseType: "blob",
+      timeout: 30000,
     });
 
-    const fileName = res.headers["content-disposition"].split("=")[1].replace("_", "");
+    const fileName = res.headers["x-suggested-filename"];
 
-    fileDownload(res.data, fileName);
+    fileDownload(res.data, !fileName ? `pagos para procesar_${new Date()}.xlsx` : fileName);
 
     dispatch({ type: actionTypes.REMOVE_LOADING });
     dispatch(setAlert({ msg: "Archivo procesado correctamente", icon: "success" }));
