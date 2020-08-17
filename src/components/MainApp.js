@@ -40,25 +40,24 @@ import Footer from "./layout/Footer";
 import BankPayments from "./private/bankPayments";
 
 const MainApp = (props) => {
+  const { getBanks, closeAlert, getSuppliers } = props;
   const { pathname } = props.location;
   const prevPath = useRef();
 
   useEffect(() => {
-    props.getBanks();
-    // eslint-disable-next-line
-  }, []);
+    getBanks();
+  }, [getBanks]);
 
   useEffect(() => {
-    props.getSuppliers();
-    // eslint-disable-next-line
-  }, []);
+    getSuppliers();
+  }, [getSuppliers]);
 
   useEffect(() => {
     if (prevPath.current !== pathname && alert.open) {
-      props.closeAlert();
+      closeAlert();
     }
     prevPath.current = pathname;
-  }, [pathname, props]);
+  }, [pathname, closeAlert]);
 
   return (
     <>

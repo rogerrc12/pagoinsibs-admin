@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 // connect
-import { connect } from 'react-redux';
-import { getPaymentsCount } from '../../actions/payments';
-import { getDebitsCount } from '../../actions/debits';
+import { connect } from "react-redux";
+import { getPaymentsCount } from "../../actions/payments";
+import { getDebitsCount } from "../../actions/debits";
+import { getSuppliers } from "../../actions/suppliers";
 
-
-const Dashboard = ({ getPaymentsCount, getDebitsCount, payments, debits }) => {
-
+const Dashboard = ({ getPaymentsCount, getDebitsCount, getSuppliers, payments, debits }) => {
   // get acc payments count
   useEffect(() => {
     getPaymentsCount();
@@ -19,6 +18,11 @@ const Dashboard = ({ getPaymentsCount, getDebitsCount, payments, debits }) => {
     getDebitsCount();
   }, [getDebitsCount]);
 
+  // get suppliers
+  useEffect(() => {
+    getSuppliers();
+  }, [getSuppliers]);
+
   return (
     <section className="content">
       <div className="row">
@@ -26,13 +30,15 @@ const Dashboard = ({ getPaymentsCount, getDebitsCount, payments, debits }) => {
           {/* small box */}
           <div className="small-box bg-green">
             <div className="inner">
-            <h3>{payments}</h3>
+              <h3>{payments}</h3>
               <p>Pagos recibidos</p>
             </div>
             <div className="icon">
-              <ion-icon name="card-outline"/>
+              <ion-icon name="card-outline" />
             </div>
-            <Link to="/users-payments" className="small-box-footer">Ver procesados <i className="fa fa-arrow-circle-right" /></Link>
+            <Link to="/users-payments" className="small-box-footer">
+              Ver procesados <i className="fa fa-arrow-circle-right" />
+            </Link>
           </div>
         </div>
         {/* ./col */}
@@ -46,7 +52,9 @@ const Dashboard = ({ getPaymentsCount, getDebitsCount, payments, debits }) => {
             <div className="icon">
               <i className="ion ion-person-add" />
             </div>
-            <Link to="/users" className="small-box-footer">Ver todos <i className="fa fa-arrow-circle-right" /></Link>
+            <Link to="/users" className="small-box-footer">
+              Ver todos <i className="fa fa-arrow-circle-right" />
+            </Link>
           </div>
         </div>
         {/* ./col */}
@@ -60,15 +68,16 @@ const Dashboard = ({ getPaymentsCount, getDebitsCount, payments, debits }) => {
             <div className="icon">
               <i className="ion ion-pie-graph" />
             </div>
-            <Link to="/direct-debits" className="small-box-footer">Ver procesadas <i className="fa fa-arrow-circle-right" /></Link>
+            <Link to="/direct-debits" className="small-box-footer">
+              Ver procesadas <i className="fa fa-arrow-circle-right" />
+            </Link>
           </div>
         </div>
         {/* ./col */}
       </div>
-
     </section>
-  )
-}
+  );
+};
 
 Dashboard.propTypes = {
   getPaymentsCount: PropTypes.func.isRequired,
@@ -76,16 +85,22 @@ Dashboard.propTypes = {
   activity: PropTypes.object.isRequired,
   payments: PropTypes.number.isRequired,
   debits: PropTypes.number.isRequired,
-  loading: PropTypes.bool.isRequired
-}
+  loading: PropTypes.bool.isRequired,
+};
 
 const mapStateToProps = (state) => {
   return {
     activity: state.activity,
     loading: state.loading.loading,
     payments: state.payments.payments_count,
-    debits: state.debits.debits_count
-  }
-}
+    debits: state.debits.debits_count,
+  };
+};
 
-export default connect(mapStateToProps, { getPaymentsCount, getDebitsCount })(Dashboard);
+const mapDispatchToProps = (dispatch) => ({
+  getSuppliers: () => dispatch(getSuppliers()),
+  getPaymentsCount: () => dispatch(getPaymentsCount()),
+  getDebitsCount: () => dispatch(getDebitsCount()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

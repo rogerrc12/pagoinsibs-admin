@@ -30,11 +30,16 @@ export const getBanks = () => async (dispatch) => {
 // GENERATE REPORT
 export const generateReport = (values) => async (dispatch) => {
   try {
-    const res = await axios.post(`/api/admin/reports/${values.reportType}`, values, { responseType: "arraybuffer" });
-    const fileName = res.headers["content-disposition"].split("=")[1].replace("_", "");
+    const res = await axios.post(`/api/admin/reports/${values.reportType}`, values, {
+      responseType: "blob",
+      timeout: 30000,
+    });
+
+    const fileName = res.headers["x-suggested-filename"];
 
     fileDownload(res.data, fileName);
-    return true;
+
+    dispatch(setAlert({ msg: "Archivo procesado correctamente", icon: "success" }));
   } catch (error) {
     const { message } = JSON.parse(Buffer.from(error.response.data).toString("utf8"));
     if (message) dispatch(setAlert({ msg: message, icon: "error" }));
