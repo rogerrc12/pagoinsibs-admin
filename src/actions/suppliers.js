@@ -1,6 +1,7 @@
 import axios from "../helpers/axios";
 import * as actionTypes from "./constants";
 import { setAlert } from "./alert";
+import history from "../helpers/history";
 import SweetAlert from "../components/UI/SweetAlert";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -43,10 +44,32 @@ export const addSupplier = (supplierData) => async (dispatch) => {
     SweetAlert("Exitoso", "Comercio agregado correctamente", "success");
     dispatch({ type: actionTypes.GET_SUPPLIERS, payload: res.data });
 
-    return true;
+    return history.push("/suppliers");
   } catch (error) {
     const { message } = error.response.data;
     if (message) dispatch(setAlert({ msg: message, icon: "error" }));
+  }
+};
+
+export const editSupplier = (supplierData, id) => async (dispatch) => {
+  const config = { headers: { "Content-Type": "application/json" } };
+  const body = JSON.stringify(supplierData);
+
+  try {
+    const res = await axios.put(`/api/admin/suppliers/${id}`, body, config);
+    dispatch(setAlert({ msg: res.data.message, icon: "success" }));
+    return history.push("/suppliers");
+  } catch (error) {
+    if (error.response) {
+      const { message } = error.response.data;
+      if (message) {
+        dispatch(setAlert({ msg: message, icon: "error" }));
+      } else {
+        dispatch(setAlert({ msg: "Ha ocurrido un error inesperado, por  favor intenta más tarde.", icon: "error" }));
+      }
+    } else {
+      dispatch(setAlert({ msg: "Ha ocurrido un error inesperado, por  favor intenta más tarde.", icon: "error" }));
+    }
   }
 };
 

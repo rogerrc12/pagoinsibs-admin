@@ -1,15 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import Alert from '../../../layout/Alert';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import Alert from "../../../layout/Alert";
 // MATERIAL TABLE
-import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableHead, TableRow, Paper, TableFooter, TablePagination } from '@material-ui/core';
-import { Edit, DeleteForever } from '@material-ui/icons';
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Paper,
+  TableFooter,
+  TablePagination,
+} from "@material-ui/core";
+import { Edit, DeleteForever } from "@material-ui/icons";
 import TablePaginationActions from "../../../../helpers/TablePagination";
 // REDUX
-import { connect } from 'react-redux';
-import { getSuppliers, deleteSupplier } from '../../../../actions/suppliers';
+import { connect } from "react-redux";
+import { getSuppliers, deleteSupplier } from "../../../../actions/suppliers";
 
 const useStyles2 = makeStyles({
   table: {
@@ -32,7 +41,7 @@ const Suppliers = ({ suppliers, getSuppliers, deleteSupplier, match }) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = event => {
+  const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -41,7 +50,10 @@ const Suppliers = ({ suppliers, getSuppliers, deleteSupplier, match }) => {
     <>
       <section className="content-header">
         <h2 className="font-weight-bold">Comercios Afiliados</h2>
-        <Link to={match.url + '/add'} className="btn btn-primary"> <i className="fa fa-plus"/> Agregar comercio</Link>
+        <Link to={match.url + "/add"} className="btn btn-primary">
+          {" "}
+          <i className="fa fa-plus" /> Agregar comercio
+        </Link>
       </section>
       <section className="content">
         <Paper>
@@ -58,21 +70,27 @@ const Suppliers = ({ suppliers, getSuppliers, deleteSupplier, match }) => {
             </TableHead>
             <TableBody>
               {(rowsPerPage > 0
-                  ? suppliers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  : suppliers
-                ).map(supplier => (
+                ? suppliers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                : suppliers
+              ).map((supplier) => (
                 <TableRow key={supplier.id} id={supplier.id}>
-                  <TableCell component="th" scope="row">{supplier.name}</TableCell>
-                  <TableCell >{supplier.rif}</TableCell>
+                  <TableCell component="th" scope="row">
+                    {supplier.name}
+                  </TableCell>
+                  <TableCell>{supplier.rif}</TableCell>
                   <TableCell>{supplier.address}</TableCell>
-                  <TableCell>{supplier.managerFirstName + ' ' + supplier.managerLastName}</TableCell>
+                  <TableCell>{supplier.managerFirstName + " " + supplier.managerLastName}</TableCell>
                   <TableCell>
-                    {supplier.mobilePhone}<br />
+                    {supplier.mobilePhone}
+                    <br />
                     {supplier.localPhone}
                   </TableCell>
                   <TableCell className="tableCell-actions" align="center">
-                    <Link to={match.url + '/profile/' + supplier.id} className="table-button profile">
-                      Perfil <Edit color="action" fontSize="large" />
+                    <Link to={match.url + "/profile/" + supplier.id} className="table-button profile">
+                      Ver perfil
+                    </Link>
+                    <Link to={match.url + "/edit/" + supplier.id} className="table-button btn-primary">
+                      Editar <Edit color="action" fontSize="large" />
                     </Link>
                     <button className="table-button delete" onClick={() => deleteSupplier(supplier)}>
                       Eliminar <DeleteForever color="action" fontSize="large" />
@@ -89,20 +107,20 @@ const Suppliers = ({ suppliers, getSuppliers, deleteSupplier, match }) => {
             </TableBody>
             <TableFooter>
               <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[5, 10]}
-                count={suppliers.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                SelectProps={{
-                  inputProps: { 'aria-label': 'Filas por hoja' },
-                  native: true,
-                }}
-                labelRowsPerPage='Entradas por página:'
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-              />
+                <TablePagination
+                  rowsPerPageOptions={[5, 10]}
+                  count={suppliers.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    inputProps: { "aria-label": "Filas por hoja" },
+                    native: true,
+                  }}
+                  labelRowsPerPage="Entradas por página:"
+                  onChangePage={handleChangePage}
+                  onChangeRowsPerPage={handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActions}
+                />
               </TableRow>
             </TableFooter>
           </Table>
@@ -111,18 +129,18 @@ const Suppliers = ({ suppliers, getSuppliers, deleteSupplier, match }) => {
       <Alert />
     </>
   );
-}
+};
 
 Suppliers.propTypes = {
   getSuppliers: PropTypes.func.isRequired,
   suppliers: PropTypes.array.isRequired,
-  deleteSupplier: PropTypes.func.isRequired
-}
+  deleteSupplier: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
   return {
-    suppliers: state.suppliers.suppliers
-  }
-}
+    suppliers: state.suppliers.suppliers,
+  };
+};
 
 export default connect(mapStateToProps, { getSuppliers, deleteSupplier })(Suppliers);

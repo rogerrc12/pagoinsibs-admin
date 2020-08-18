@@ -98,6 +98,7 @@ const MainApp = (props) => {
           <PrivateRoute exact path="/suppliers" component={Suppliers} />
           <PrivateRoute exact path="/suppliers/add-account/:id" component={SupplierAccountForm} />
           <PrivateRoute exact path="/suppliers/add" component={AddSupplier} />
+          <PrivateRoute exact path="/suppliers/edit/:id" component={AddSupplier} />
           <PrivateRoute exact path="/suppliers/profile/:id" component={SupplierProfile} />
           <PrivateRoute exact path="/suppliers/products/add/:supplier_id" component={AddProduct} />
           <PrivateRoute exact path="/suppliers/products/edit/:supplier_id/:product_id" component={EditProduct} />

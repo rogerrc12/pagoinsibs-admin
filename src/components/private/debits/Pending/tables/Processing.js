@@ -24,81 +24,71 @@ const columns = [
   { id: "debit_type", label: "Tipo de pago", minWidth: 150 },
   { id: "issue_date", label: "Fecha de creación", minWidth: 170 },
   { id: "fee_amount", label: "Monto por cuota", minWidth: 150 },
-  { id: "start_payment_date", label: "Inicio de cobro", minWidth: 170 },
+  { id: "start_payment_date", label: "Fecha de cuota", minWidth: 170 },
   { id: "supplier_name", label: "Empresa", minWidth: 250 },
-  { id: "actions", label: "Acciones", minWidth: 200 }
+  { id: "actions", label: "Acciones", minWidth: 200 },
 ];
 
 const ProcessingDebitsTable = ({ debits }) => {
-
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, debits.length ? debits.length : 0 - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, debits.length ? debits.length : 0 - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = event => {
+  const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
   return (
     <>
-      <section className='content-header'>
+      <section className="content-header">
         <div className="content-title">
-          <h2 className='font-weight-bold'>Domiciliaciones en proceso</h2>
+          <h2 className="font-weight-bold">Domiciliaciones en proceso</h2>
         </div>
       </section>
-      <section className='content'>
-        <Paper className='activity-table'>
+      <section className="content">
+        <Paper className="activity-table">
           <div style={{ maxHeight: "440px", overflow: "auto", width: "100%" }}>
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
-                  {columns.map(column => (
-                    <TableCell
-                      key={column.id}
-                      style={{ minWidth: column.minWidth }}>
+                  {columns.map((column) => (
+                    <TableCell key={column.id} style={{ minWidth: column.minWidth }}>
                       {column.label}
                     </TableCell>
                   ))}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {debits.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(debit => (
-                  <TableRow hover key={debit.id} role='checkbox' tabIndex={-1}>
-                    <TableCell className={"status " + debit.status.name}>
-                      {debit.status.name}
-                    </TableCell>
-                    <TableCell>
-                      {debit.user.firstName + " " + debit.user.lastName}
-                    </TableCell>
+                {debits.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((debit) => (
+                  <TableRow hover key={debit.id} role="checkbox" tabIndex={-1}>
+                    <TableCell className={"status " + debit.status.name}>{debit.status.name}</TableCell>
+                    <TableCell>{debit.user.firstName + " " + debit.user.lastName}</TableCell>
                     <TableCell>{debit.user.cedula}</TableCell>
                     <TableCell>{debit.bankName}</TableCell>
                     <TableCell>{debit.debitType}</TableCell>
                     <TableCell>
-                      <Moment format='DD/MM/YYYY hh:mm a'>{debit.createdAt}</Moment>
+                      <Moment format="DD/MM/YYYY hh:mm a">{debit.createdAt}</Moment>
                     </TableCell>
                     <TableCell>
                       {Number(debit.feeAmount).toLocaleString("es-ES", {
                         minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
+                        maximumFractionDigits: 2,
                       })}
                       Bs.
                     </TableCell>
                     <TableCell>
-                      <Moment format='DD/MM/YYYY hh:mm a'>{debit.startPaymentDate}</Moment>
+                      <Moment format="DD/MM/YYYY hh:mm a">{debit.startPaymentDate}</Moment>
                     </TableCell>
                     <TableCell>{debit.supplier.name}</TableCell>
-                    <TableCell align='center' className='tableCell-actions'>
-                      <Link
-                        className='table-button'
-                        to={`/users-direct-debits/detail/${debit.id}`}>
+                    <TableCell align="center" className="tableCell-actions">
+                      <Link className="table-button" to={`/users-direct-debits/detail/${debit.id}`}>
                         Más detalles
-                        <CheckBox color='action' fontSize='large' />
+                        <CheckBox color="action" fontSize="large" />
                       </Link>
                     </TableCell>
                   </TableRow>
@@ -119,9 +109,9 @@ const ProcessingDebitsTable = ({ debits }) => {
                     page={page}
                     SelectProps={{
                       inputProps: { "aria-label": "Filas por hoja" },
-                      native: true
+                      native: true,
                     }}
-                    labelRowsPerPage='Entradas por página:'
+                    labelRowsPerPage="Entradas por página:"
                     onChangePage={handleChangePage}
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                     ActionsComponent={TablePaginationActions}
@@ -137,12 +127,12 @@ const ProcessingDebitsTable = ({ debits }) => {
 };
 
 ProcessingDebitsTable.propTypes = {
-  debits: PropTypes.array.isRequired
+  debits: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    loading: state.loading.loading
+    loading: state.loading.loading,
   };
 };
 
