@@ -11,7 +11,7 @@ const validationSchema = Yup.object({
   toDate: Yup.date().required("Debes seleccionar una fecha hasta."),
   reportType: Yup.string().required("Selecciona un tipo de reporte"),
   bankId: Yup.string().when("reportType", {
-    is: "pending-bank",
+    is: ["pending-bank", "charged-payments"],
     then: Yup.string().required("El banco es obligatorio para este reporte."),
   }),
   supplierId: Yup.number().when("reportType", {
@@ -93,8 +93,9 @@ const GenerateReportForm = (props) => {
             <label>Tipo de reporte</label>
             <Field as="select" name="reportType" className="form-control">
               <option value="">Selecciona una opción</option>
-              <option value="pending-bank">Pendientes por cobrar (banco)</option>
-              <option value="pending-supplier">Pendientes por cobrar (comercio)</option>
+              <option value="pending">Cuotas pendientes por cobrar</option>
+              <option value="pending-bank">Cuotas pendientes por cobrar (banco)</option>
+              <option value="pending-supplier">Cuotas pendientes por cobrar (comercio)</option>
               <option value="expired-payments">Cuotas expiradas/vencidas</option>
               <option value="charged-payments">Cuotas cobradas (banco)</option>
             </Field>
