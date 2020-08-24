@@ -45,7 +45,6 @@ export const getDebitsCount = (status) => async (dispatch) => {
 export const getDebitDetail = (id) => async (dispatch) => {
   try {
     const res = await axios.get(`/api/admin/debits/${id}`);
-    console.log(res.data);
 
     dispatch({ type: actionTypes.GET_DEBIT_DETAILS, payload: res.data });
   } catch (error) {
@@ -69,23 +68,22 @@ export const getDebitFees = (id) => async (dispatch) => {
 
 // ADD SINGLE DEBIT TO BANK LIST TO PROCESS
 export const addDebitToBank = (id) => async (dispatch) => {
-  if (id) {
-    dispatch({ type: actionTypes.SET_LOADING });
+  if (!id) return null;
+  dispatch({ type: actionTypes.SET_LOADING });
 
-    try {
-      const res = await axios.post(`/api/admin/bank-payments/debit/${id}`);
+  try {
+    const res = await axios.post(`/api/admin/bank-payments/debit/${id}`);
 
-      dispatch({ type: actionTypes.REMOVE_LOADING });
-      dispatch(setAlert({ msg: res.data.message, icon: "success" }));
-      dispatch(getDebitDetail(id));
-      dispatch(getDebitFees(id));
-    } catch (error) {
-      const message = error.response.data.message;
-      if (message) dispatch(setAlert({ msg: message, icon: "error" }));
-      dispatch({ type: actionTypes.REMOVE_LOADING });
-      return dispatch({ type: actionTypes.ADD_DEBIT_BANK_ERROR });
-    }
-  } else return null;
+    dispatch({ type: actionTypes.REMOVE_LOADING });
+    dispatch(setAlert({ msg: res.data.message, icon: "success" }));
+    dispatch(getDebitDetail(id));
+    dispatch(getDebitFees(id));
+  } catch (error) {
+    const { message } = error.response.data;
+    if (message) dispatch(setAlert({ msg: message, icon: "error" }));
+    dispatch({ type: actionTypes.REMOVE_LOADING });
+    return dispatch({ type: actionTypes.ADD_DEBIT_BANK_ERROR });
+  }
 };
 
 // ADD LOT OF DEBITS TO BANK LIST TO PROCESS

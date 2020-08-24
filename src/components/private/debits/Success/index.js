@@ -58,7 +58,7 @@ const SuccessDebitsTable = ({ getDebits, debits, loading }) => {
     <>
       <section className="content-header">
         <div className="section-title">
-          <h2 className="font-weight-bold">Domiciliaciones procesadas</h2>
+          <h2 className="font-weight-bold">Domiciliaciones recibidas</h2>
           <button
             className={`btn btn-primary ld-ext-right ${loading && "running"}`}
             onClick={() => getDebits("success")}

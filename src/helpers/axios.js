@@ -13,4 +13,15 @@ const axiosInstance = axios.create({
   timeout: 10000,
 });
 
+axiosInstance.interceptors.response.use(
+  (res) => {
+    console.log(`received from ${res.config.url} at ${new Date().toISOString()}`);
+    return res;
+  },
+  (error) => {
+    console.warn(error.response.status);
+    throw error;
+  }
+);
+
 export default axiosInstance;
