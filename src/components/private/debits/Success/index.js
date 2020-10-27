@@ -4,21 +4,12 @@ import Moment from "react-moment";
 import { Link } from "react-router-dom";
 // React Table
 import { CheckBox } from "@material-ui/icons";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TableFooter,
-  TablePagination,
-  Paper,
-} from "@material-ui/core";
+import { Table, TableBody, TableCell, TableHead, TableRow, TableFooter, TablePagination, Paper } from "@material-ui/core";
 import TablePaginationActions from "../../../../helpers/TablePagination";
 import TableSearch from "../../tableSearch";
 // REDUX
 import { connect } from "react-redux";
-import { getDebits } from "../../../../actions/debits";
+import { getDebits } from "../../../../store/actions/debits";
 
 const columns = [
   { id: "status", label: "Estado", minWidth: 100 },
@@ -56,22 +47,18 @@ const SuccessDebitsTable = ({ getDebits, debits, loading }) => {
 
   return (
     <>
-      <section className="content-header">
-        <div className="section-title">
-          <h2 className="font-weight-bold">Domiciliaciones recibidas</h2>
-          <button
-            className={`btn btn-primary ld-ext-right ${loading && "running"}`}
-            onClick={() => getDebits("success")}
-            disabled={loading}
-          >
+      <section className='content-header'>
+        <div className='section-title'>
+          <h2 className='font-weight-bold'>Domiciliaciones recibidas</h2>
+          <button className={`btn btn-primary ld-ext-right ${loading && "running"}`} onClick={() => getDebits("success")} disabled={loading}>
             Actualizar
-            <div className="ld ld-ring ld-spin" />
+            <div className='ld ld-ring ld-spin' />
           </button>
         </div>
         <TableSearch setFilter={setFilter} payments={debits} />
       </section>
-      <section className="content">
-        <Paper className="activity-table">
+      <section className='content'>
+        <Paper className='activity-table'>
           <div style={{ maxHeight: "440px", overflow: "auto", width: "100%" }}>
             <Table stickyHeader>
               <TableHead>
@@ -84,37 +71,35 @@ const SuccessDebitsTable = ({ getDebits, debits, loading }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {(!filteredDebits ? debits : filteredDebits)
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((debit) => (
-                    <TableRow hover key={debit.id} role="checkbox" tabIndex={-1}>
-                      <TableCell className={"status " + debit.status.name}>{debit.status.name}</TableCell>
-                      <TableCell>{debit.user.firstName + " " + debit.user.lastName}</TableCell>
-                      <TableCell>{debit.user.cedula}</TableCell>
-                      <TableCell>{debit.bankName}</TableCell>
-                      <TableCell>{debit.debitType}</TableCell>
-                      <TableCell>
-                        <Moment format="DD/MM/YYYY hh:mm a">{debit.createdAt}</Moment>
-                      </TableCell>
-                      <TableCell>
-                        {Number(debit.feeAmount).toLocaleString("es-ES", {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })}{" "}
-                        Bs.
-                      </TableCell>
-                      <TableCell>
-                        <Moment format="DD/MM/YYYY hh:mm a">{debit.startPaymentDate}</Moment>
-                      </TableCell>
-                      <TableCell>{debit.supplier.name}</TableCell>
-                      <TableCell align="center" className="tableCell-actions">
-                        <Link className="table-button" to={`/users-direct-debits/detail/${debit.id}`}>
-                          Ver detalles
-                          <CheckBox color="action" fontSize="large" />
-                        </Link>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                {(!filteredDebits ? debits : filteredDebits).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((debit) => (
+                  <TableRow hover key={debit.id} role='checkbox' tabIndex={-1}>
+                    <TableCell className={"status " + debit.status.name}>{debit.status.name}</TableCell>
+                    <TableCell>{debit.user.firstName + " " + debit.user.lastName}</TableCell>
+                    <TableCell>{debit.user.cedula}</TableCell>
+                    <TableCell>{debit.bankName}</TableCell>
+                    <TableCell>{debit.debitType}</TableCell>
+                    <TableCell>
+                      <Moment format='DD/MM/YYYY hh:mm a'>{debit.createdAt}</Moment>
+                    </TableCell>
+                    <TableCell>
+                      {Number(debit.feeAmount).toLocaleString("es-ES", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}{" "}
+                      Bs.
+                    </TableCell>
+                    <TableCell>
+                      <Moment format='DD/MM/YYYY hh:mm a'>{debit.startPaymentDate}</Moment>
+                    </TableCell>
+                    <TableCell>{debit.supplier.name}</TableCell>
+                    <TableCell align='center' className='tableCell-actions'>
+                      <Link className='table-button' to={`/users-direct-debits/detail/${debit.id}`}>
+                        Ver detalles
+                        <CheckBox color='action' fontSize='large' />
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                ))}
 
                 {emptyRows > 0 && (
                   <TableRow style={{ height: 53 * emptyRows }}>
@@ -133,7 +118,7 @@ const SuccessDebitsTable = ({ getDebits, debits, loading }) => {
                       inputProps: { "aria-label": "Filas por hoja" },
                       native: true,
                     }}
-                    labelRowsPerPage="Entradas por página:"
+                    labelRowsPerPage='Entradas por página:'
                     onChangePage={handleChangePage}
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                     ActionsComponent={TablePaginationActions}

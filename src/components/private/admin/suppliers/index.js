@@ -4,21 +4,12 @@ import { Link } from "react-router-dom";
 import Alert from "../../../layout/Alert";
 // MATERIAL TABLE
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Paper,
-  TableFooter,
-  TablePagination,
-} from "@material-ui/core";
+import { Table, TableBody, TableCell, TableHead, TableRow, Paper, TableFooter, TablePagination } from "@material-ui/core";
 import { Edit, DeleteForever } from "@material-ui/icons";
 import TablePaginationActions from "../../../../helpers/TablePagination";
 // REDUX
 import { connect } from "react-redux";
-import { getSuppliers, deleteSupplier } from "../../../../actions/suppliers";
+import { getSuppliers, deleteSupplier } from "../../../../store/actions/suppliers";
 
 const useStyles2 = makeStyles({
   table: {
@@ -48,16 +39,16 @@ const Suppliers = ({ suppliers, getSuppliers, deleteSupplier, match }) => {
 
   return (
     <>
-      <section className="content-header">
-        <h2 className="font-weight-bold">Comercios Afiliados</h2>
-        <Link to={match.url + "/add"} className="btn btn-primary">
+      <section className='content-header'>
+        <h2 className='font-weight-bold'>Comercios Afiliados</h2>
+        <Link to={match.url + "/add"} className='btn btn-primary'>
           {" "}
-          <i className="fa fa-plus" /> Agregar comercio
+          <i className='fa fa-plus' /> Agregar comercio
         </Link>
       </section>
-      <section className="content">
+      <section className='content'>
         <Paper>
-          <Table className={classes.table} aria-label="Comercios afiliados" stickyHeader>
+          <Table className={classes.table} aria-label='Comercios afiliados' stickyHeader>
             <TableHead>
               <TableRow>
                 <TableCell>Nombre del comercio</TableCell>
@@ -65,16 +56,13 @@ const Suppliers = ({ suppliers, getSuppliers, deleteSupplier, match }) => {
                 <TableCell>Dirección</TableCell>
                 <TableCell>Engarcado/a</TableCell>
                 <TableCell>Teléfonos de contacto</TableCell>
-                <TableCell align="center">Acciones</TableCell>
+                <TableCell align='center'>Acciones</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {(rowsPerPage > 0
-                ? suppliers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                : suppliers
-              ).map((supplier) => (
+              {(rowsPerPage > 0 ? suppliers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : suppliers).map((supplier) => (
                 <TableRow key={supplier.id} id={supplier.id}>
-                  <TableCell component="th" scope="row">
+                  <TableCell component='th' scope='row'>
                     {supplier.name}
                   </TableCell>
                   <TableCell>{supplier.rif}</TableCell>
@@ -85,15 +73,15 @@ const Suppliers = ({ suppliers, getSuppliers, deleteSupplier, match }) => {
                     <br />
                     {supplier.localPhone}
                   </TableCell>
-                  <TableCell className="tableCell-actions" align="center">
-                    <Link to={match.url + "/profile/" + supplier.id} className="table-button profile">
+                  <TableCell className='tableCell-actions' align='center'>
+                    <Link to={match.url + "/profile/" + supplier.id} className='table-button profile'>
                       Ver perfil
                     </Link>
-                    <Link to={match.url + "/edit/" + supplier.id} className="table-button btn-primary">
-                      Editar <Edit color="action" fontSize="large" />
+                    <Link to={match.url + "/edit/" + supplier.id} className='table-button btn-primary'>
+                      Editar <Edit color='action' fontSize='large' />
                     </Link>
-                    <button className="table-button delete" onClick={() => deleteSupplier(supplier)}>
-                      Eliminar <DeleteForever color="action" fontSize="large" />
+                    <button className='table-button delete' onClick={() => deleteSupplier(supplier)}>
+                      Eliminar <DeleteForever color='action' fontSize='large' />
                     </button>
                   </TableCell>
                 </TableRow>
@@ -116,7 +104,7 @@ const Suppliers = ({ suppliers, getSuppliers, deleteSupplier, match }) => {
                     inputProps: { "aria-label": "Filas por hoja" },
                     native: true,
                   }}
-                  labelRowsPerPage="Entradas por página:"
+                  labelRowsPerPage='Entradas por página:'
                   onChangePage={handleChangePage}
                   onChangeRowsPerPage={handleChangeRowsPerPage}
                   ActionsComponent={TablePaginationActions}

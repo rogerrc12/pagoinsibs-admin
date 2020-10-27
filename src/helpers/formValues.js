@@ -26,3 +26,9 @@ export const supplierValues = (values) => {
     mobile_phone: values.mobilePhone || "",
   };
 };
+
+export const currencyFormValues = (values) => ({
+  name: values.name || "",
+  ISO: values.ISO || "",
+  symbol: values.symbol || "",
+});

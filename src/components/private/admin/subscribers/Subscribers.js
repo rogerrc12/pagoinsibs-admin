@@ -1,39 +1,39 @@
-import React, { useEffect, Fragment } from 'react';
-import { NavLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import Moment from 'react-moment';
+import React, { useEffect, Fragment } from "react";
+import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
+import Moment from "react-moment";
 // MATERIAL TABLE
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableHead from '@material-ui/core/TableHead';
-import TableCell from '@material-ui/core/TableCell';
-import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { Visibility } from '@material-ui/icons';
+import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableHead from "@material-ui/core/TableHead";
+import TableCell from "@material-ui/core/TableCell";
+import TableFooter from "@material-ui/core/TableFooter";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import { Visibility } from "@material-ui/icons";
 import TablePaginationActions from "../../../../helpers/TablePagination";
 // REDUX
-import { connect } from 'react-redux';
-import { getSubscribers } from '../../../../actions/users';
+import { connect } from "react-redux";
+import { getSubscribers } from "../../../../store/actions/users";
 
-const useStyles2 = makeStyles(theme => ({
+const useStyles2 = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: "100%",
     marginTop: theme.spacing(3),
   },
   table: {
     minWidth: 500,
   },
   tableWrapper: {
-    overflowX: 'auto',
+    overflowX: "auto",
   },
 }));
 
 const Subscribers = ({ getSubscribers, subscribers, match }) => {
   useEffect(() => {
-    getSubscribers()
+    getSubscribers();
   }, [getSubscribers]);
 
   const classes = useStyles2();
@@ -46,20 +46,20 @@ const Subscribers = ({ getSubscribers, subscribers, match }) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = event => {
+  const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
   return (
     <Fragment>
-      <section className="content-header">
-        <h2 className="text-uppercase font-weight-bold">Usuarios del Administrador</h2>
+      <section className='content-header'>
+        <h2 className='text-uppercase font-weight-bold'>Usuarios del Administrador</h2>
       </section>
-      <section className="content">
+      <section className='content'>
         <Paper className={classes.root}>
           <div className={classes.tableWrapper}>
-            <Table className={classes.table} aria-label="custom pagination table">
+            <Table className={classes.table} aria-label='custom pagination table'>
               <TableHead>
                 <TableRow>
                   <TableCell>Ver perfil</TableCell>
@@ -71,23 +71,21 @@ const Subscribers = ({ getSubscribers, subscribers, match }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {subscribers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(subscriber => (
+                {subscribers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((subscriber) => (
                   <TableRow key={subscriber.id} id={subscriber.id}>
                     <TableCell>
-                      <NavLink to={match.url + '/profile/' + subscriber.id} className="action-button__table">
-                        <Visibility color="action" fontSize="large" />
+                      <NavLink to={match.url + "/profile/" + subscriber.id} className='action-button__table'>
+                        <Visibility color='action' fontSize='large' />
                       </NavLink>
                     </TableCell>
-                    <TableCell component="th" scope="row">
-                      {subscriber.firstName + ' ' + subscriber.lastName}
+                    <TableCell component='th' scope='row'>
+                      {subscriber.firstName + " " + subscriber.lastName}
                     </TableCell>
                     <TableCell>{subscriber.cedula}</TableCell>
                     <TableCell>{subscriber.email}</TableCell>
                     <TableCell>{subscriber.username}</TableCell>
                     <TableCell>
-                      <Moment format="DD/MM/YYYY">
-                        {subscriber.joined}
-                      </Moment>
+                      <Moment format='DD/MM/YYYY'>{subscriber.joined}</Moment>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -107,7 +105,7 @@ const Subscribers = ({ getSubscribers, subscribers, match }) => {
                     rowsPerPage={rowsPerPage}
                     page={page}
                     SelectProps={{
-                      inputProps: { 'aria-label': 'entradas por página' },
+                      inputProps: { "aria-label": "entradas por página" },
                       native: true,
                     }}
                     labelRowsPerPage='Entradas por página:'
@@ -119,21 +117,21 @@ const Subscribers = ({ getSubscribers, subscribers, match }) => {
               </TableFooter>
             </Table>
           </div>
-        </Paper>              
+        </Paper>
       </section>
     </Fragment>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
-    subscribers: state.users.subscribers
-  }
-}
+    subscribers: state.users.subscribers,
+  };
+};
 
 Subscribers.propTypes = {
   subscribers: PropTypes.array.isRequired,
-  getSubscribers: PropTypes.func.isRequired
-}
+  getSubscribers: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps, { getSubscribers })(Subscribers);

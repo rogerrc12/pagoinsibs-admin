@@ -14,13 +14,15 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.response.use(
-  (res) => {
-    console.log(`received from ${res.config.url} at ${new Date().toISOString()}`);
-    return res;
-  },
+  (res) => res,
   (error) => {
-    console.warn(error.response.status);
-    throw error;
+    console.log(error.response);
+    console.warn("Error status", error.response.status);
+    if (error.response) {
+      return Promise.reject(error.response);
+    } else {
+      return Promise.reject(error);
+    }
   }
 );
 

@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import Login from "./auth/Login";
 import Alert from "./layout/Alert";
 // Redux
-import { closeAlert } from "../actions/alert";
-import { getBanks } from "../actions/activity";
-import { getSuppliers } from "../actions/suppliers";
+import { closeAlert } from "../store/actions/alert";
+import * as actions from "../store/actions";
+import { getSuppliers } from "../store/actions/suppliers";
 import PrivateRoute from "./routing/PrivateRoute";
 // Private Routes
 import dashboard from "./private/Dashboard";
@@ -17,6 +17,8 @@ import AddUser from "./private/admin/users/form/Add";
 import EditUser from "./private/admin/users/form/Edit";
 import Subscribers from "./private/admin/subscribers/Subscribers";
 import SubscribersProfile from "./private/admin/subscribers/profile";
+import Currencies from "../containers/Currencies/Currencies";
+import Products from "../containers/Products/Products";
 // Suppliers imports
 import Suppliers from "./private/admin/suppliers";
 import SupplierAccountForm from "./private/admin/suppliers/add/AddBankAccount";
@@ -40,7 +42,7 @@ import Footer from "./layout/Footer";
 import BankPayments from "./private/bankPayments";
 
 const MainApp = (props) => {
-  const { getBanks, closeAlert, getSuppliers } = props;
+  const { getBanks, closeAlert, getSuppliers, getCurrencies } = props;
   const { pathname } = props.location;
   const prevPath = useRef();
 
@@ -51,6 +53,10 @@ const MainApp = (props) => {
   useEffect(() => {
     getSuppliers();
   }, [getSuppliers]);
+
+  useEffect(() => {
+    getCurrencies();
+  }, [getCurrencies]);
 
   useEffect(() => {
     if (prevPath.current !== pathname && alert.open) {
@@ -68,41 +74,45 @@ const MainApp = (props) => {
         </>
       )}
       <div className={props.isAuthenticated ? "content-wrapper" : "login-wrapper"}>
-        <Route exact path="/" component={Login} />
+        <Route exact path='/' component={Login} />
         <Switch>
-          <PrivateRoute exact path="/activity" component={dashboard} />
+          <PrivateRoute exact path='/activity' component={dashboard} />
 
           {/* All Payments routes */}
-          <PrivateRoute exact path="/users-payments" component={PaymentsSuccess} />
-          <PrivateRoute exact path="/users-pending-payments" component={PaymentsPending} />
-          <PrivateRoute exact path="/users-payments/detail/:id" component={PaymentDetail} />
+          <PrivateRoute exact path='/users-payments' component={PaymentsSuccess} />
+          <PrivateRoute exact path='/users-pending-payments' component={PaymentsPending} />
+          <PrivateRoute exact path='/users-payments/detail/:id' component={PaymentDetail} />
 
           {/* All Direct Debit routes */}
-          <PrivateRoute exact path="/pending-direct-debits" component={DebitsPending} />
-          <PrivateRoute exact path="/direct-debits" component={DebitsSuccess} />
-          <PrivateRoute exact path="/users-direct-debits/detail/:id" component={DebitDetail} />
+          <PrivateRoute exact path='/pending-direct-debits' component={DebitsPending} />
+          <PrivateRoute exact path='/direct-debits' component={DebitsSuccess} />
+          <PrivateRoute exact path='/users-direct-debits/detail/:id' component={DebitDetail} />
 
           {/* All bank payments routes */}
-          <PrivateRoute exact path="/bank-payments" component={BankPayments} />
+          <PrivateRoute exact path='/bank-payments' component={BankPayments} />
 
           {/* All Admin users routes */}
-          <PrivateRoute exact path="/users" component={Users} />
-          <PrivateRoute exact path="/users/add-user" component={AddUser} />
-          <PrivateRoute exact path="/users/edit-user/:id" component={EditUser} />
+          <PrivateRoute exact path='/users' component={Users} />
+          <PrivateRoute exact path='/users/add-user' component={AddUser} />
+          <PrivateRoute exact path='/users/edit-user/:id' component={EditUser} />
 
           {/* All Subscribers routes */}
-          <PrivateRoute exact path="/subscribers" component={Subscribers} />
-          <PrivateRoute exact path="/subscribers/profile/:id" component={SubscribersProfile} />
+          <PrivateRoute exact path='/subscribers' component={Subscribers} />
+          <PrivateRoute exact path='/subscribers/profile/:id' component={SubscribersProfile} />
 
           {/* All supplier routes */}
-          <PrivateRoute exact path="/suppliers" component={Suppliers} />
-          <PrivateRoute exact path="/suppliers/add-account/:id" component={SupplierAccountForm} />
-          <PrivateRoute exact path="/suppliers/add" component={AddSupplier} />
-          <PrivateRoute exact path="/suppliers/edit/:id" component={AddSupplier} />
-          <PrivateRoute exact path="/suppliers/profile/:id" component={SupplierProfile} />
-          <PrivateRoute exact path="/suppliers/products/add/:supplier_id" component={AddProduct} />
-          <PrivateRoute exact path="/suppliers/products/edit/:supplier_id/:product_id" component={EditProduct} />
-          <PrivateRoute exact path="/generate-report" component={GenerateReport} />
+          <PrivateRoute exact path='/suppliers' component={Suppliers} />
+          <PrivateRoute exact path='/suppliers/add-account/:id' component={SupplierAccountForm} />
+          <PrivateRoute exact path='/suppliers/add' component={AddSupplier} />
+          <PrivateRoute exact path='/suppliers/edit/:id' component={AddSupplier} />
+          <PrivateRoute exact path='/suppliers/profile/:id' component={SupplierProfile} />
+          <PrivateRoute exact path='/suppliers/products/add/:supplier_id' component={AddProduct} />
+          <PrivateRoute exact path='/suppliers/products/edit/:supplier_id/:product_id' component={EditProduct} />
+          <PrivateRoute exact path='/generate-report' component={GenerateReport} />
+
+          {/* All currencies routes */}
+          <PrivateRoute path='/currencies' component={Currencies} />
+          <PrivateRoute path='/products' component={Products} />
         </Switch>
       </div>
       {props.isAuthenticated && <Footer />}
@@ -120,7 +130,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getSuppliers: () => dispatch(getSuppliers()),
     closeAlert: () => dispatch(closeAlert()),
-    getBanks: () => dispatch(getBanks()),
+    getBanks: () => dispatch(actions.getBanksInit()),
+    getCurrencies: () => dispatch(actions.getCurrenciesInit()),
   };
 };
 

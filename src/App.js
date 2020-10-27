@@ -6,7 +6,7 @@ import setAuthToken from "./helpers/setAuthToken";
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
-import { loadUser } from "./actions/auth";
+import { loadUser } from "./store/actions/auth";
 import history from "./helpers/history";
 
 if (localStorage.token) {
