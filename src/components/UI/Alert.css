@@ -1,0 +1,16 @@
+.Alert {
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
+  z-index: 999;
+}
+
+.MuiAlert-message {
+  font-size: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+  .MuiAlert-message {
+    font-size: 1.15rem;
+  }
+}
