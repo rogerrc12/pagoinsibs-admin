@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import MainApp from "./components/MainApp";
+import MainApp from "./containers/MainApp";
 import { Router } from "react-router-dom";
 // Helpers
 import setAuthToken from "./helpers/setAuthToken";
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
-import { loadUser } from "./actions/auth";
+import { loadUser } from "./store/actions/auth";
 import history from "./helpers/history";
 
 if (localStorage.token) {

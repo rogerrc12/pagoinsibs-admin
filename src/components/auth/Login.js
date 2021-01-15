@@ -5,7 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 // REDUX
 import { connect } from "react-redux";
-import { loginUser } from "../../actions/auth";
+import { loginUser } from "../../store/actions/auth";
 
 const initialValues = { email: "", password: "" };
 const formSchema = Yup.object().shape({
@@ -28,51 +28,44 @@ const Login = ({ loginUser, isAuthenticated, location }) => {
 
   return (
     <>
-      <img src={process.env.PUBLIC_URL + "/img/logo-blanco.png"} alt="logo insibs" />
-      <div className="login-box">
-        <div className="login-box-body">
-          <p className="login-box-msg">Iniciar Sesión</p>
+      <img src={process.env.PUBLIC_URL + "/img/logo-blanco.png"} alt='logo insibs' />
+      <div className='login-box'>
+        <div className='login-box-body'>
+          <p className='login-box-msg'>Iniciar Sesión</p>
 
           <Formik initialValues={initialValues} validationSchema={formSchema} onSubmit={(values) => loginUser(values)}>
             {({ isSubmitting }) => (
               <Form>
-                <div className="form-group has-feedback">
-                  <Field type="text" className="form-control" name="email" placeholder="Usuario" />
-                  <span className="glyphicon glyphicon-envelope form-control-feedback" />
+                <div className='form-group has-feedback'>
+                  <Field type='text' className='form-control' name='email' placeholder='Usuario' />
+                  <span className='glyphicon glyphicon-envelope form-control-feedback' />
                 </div>
-                <ErrorMessage name="email">
+                <ErrorMessage name='email'>
                   {(message) => (
-                    <span className="error-msg">
-                      <i className="fa fa-warning"></i> {message}
+                    <span className='error-msg'>
+                      <i className='fa fa-warning'></i> {message}
                     </span>
                   )}
                 </ErrorMessage>
-                <div className="form-group has-feedback">
-                  <Field
-                    type="password"
-                    className="form-control"
-                    name="password"
-                    placeholder="Contraseña"
-                    autoComplete="contraseña"
-                  />
-                  <span className="glyphicon glyphicon-lock form-control-feedback" />
+                <div className='form-group has-feedback'>
+                  <Field type='password' className='form-control' name='password' placeholder='Contraseña' autoComplete='contraseña' />
+                  <span className='glyphicon glyphicon-lock form-control-feedback' />
                 </div>
-                <ErrorMessage name="password">
+                <ErrorMessage name='password'>
                   {(message) => (
-                    <span className="error-msg">
-                      <i className="fa fa-warning"></i> {message}
+                    <span className='error-msg'>
+                      <i className='fa fa-warning'></i> {message}
                     </span>
                   )}
                 </ErrorMessage>
-                <div className="row">
-                  <div className="col-xs-4">
+                <div className='row'>
+                  <div className='col-xs-4'>
                     <button
-                      type="submit"
+                      type='submit'
                       className={`btn btn-primary btn-large btn-flat ld-ext-right ${isSubmitting && "running"}`}
-                      disabled={isSubmitting}
-                    >
+                      disabled={isSubmitting}>
                       Iniciar Sesión
-                      <div className="ld ld-ring ld-spin"></div>
+                      <div className='ld ld-ring ld-spin'></div>
                     </button>
                   </div>
                 </div>

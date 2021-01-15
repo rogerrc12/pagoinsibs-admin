@@ -13,14 +13,23 @@ const axiosInstance = axios.create({
   timeout: 10000,
 });
 
-axiosInstance.interceptors.response.use(
-  (res) => {
-    console.log(`received from ${res.config.url} at ${new Date().toISOString()}`);
-    return res;
+axiosInstance.interceptors.request.use(
+  (config) => {
+    console.log(`Request de tipo ${config.method.toUpperCase()} enviada a ${config.url}`);
+    return config;
   },
+  (error) => error
+);
+
+axiosInstance.interceptors.response.use(
+  (res) => res,
   (error) => {
-    console.warn(error.response.status);
-    throw error;
+    console.warn("Error status", error.response.status);
+    if (error.response) {
+      return Promise.reject(error.response);
+    } else {
+      return Promise.reject(error);
+    }
   }
 );
 
