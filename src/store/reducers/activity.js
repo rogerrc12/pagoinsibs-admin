@@ -8,23 +8,14 @@ const initialState = {
   cc_payment_detail: {},
   banks: [],
   currencies: [],
+  currencyData: {},
+  error: "",
 };
 
 export default function (state = initialState, action = {}) {
-  const { type, payload } = action;
+  const { type } = action;
 
   switch (type) {
-    // CC PAYMENTS
-    case actionTypes.CCPAYMENTS_LOADED:
-      return { ...state, cc_payments: payload };
-    case actionTypes.CCPAYMENTS_ERROR:
-      return { ...state, cc_payments: null };
-
-    case actionTypes.GET_CCPAYMENT:
-      return { ...state, cc_payment_detail: payload };
-    case actionTypes.GET_CCPAYMENT_ERROR:
-      return { ...state, cc_payment_detail: {} };
-
     case actionTypes.GET_BANKS_SUCCESS:
       return { ...state, banks: action.banks };
     case actionTypes.GET_BANKS_ERROR:
@@ -32,8 +23,12 @@ export default function (state = initialState, action = {}) {
 
     case actionTypes.GET_CURRENCIES_SUCCESS:
       return { ...state, currencies: action.currencies };
-    case actionTypes.GET_CURRENCIES_ERROR:
-      return { ...state, currencies: [] };
+
+    case actionTypes.GET_CURRENCY_SUCCESS:
+      return { ...state, currencyData: action.currencyData };
+
+    case actionTypes.CURRENCY_ERROR:
+      return { ...state, error: action.msg };
 
     default:
       return state;

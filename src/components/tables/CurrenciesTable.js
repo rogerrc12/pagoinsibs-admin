@@ -1,34 +1,30 @@
 import React from "react";
-import { TableCell, TableRow, TableHead, TableBody } from "@material-ui/core";
-import { Edit } from "@material-ui/icons";
-import SimpleTable from "../UI/tables/SimpleTable";
+import Table from "../UI/tables/Table";
+import { formatAmount } from "../../helpers/functions";
 
 const CurrenciesTable = (props) => {
+  const data =
+    props.data.length > 0
+      ? props.data.map((currency) => ({
+          id: currency.id,
+          name: currency.name,
+          ISO: currency.ISO,
+          symbol: currency.symbol,
+          buyPrice: formatAmount(currency.buyPrice),
+          sellPrice: formatAmount(currency.sellPrice),
+        }))
+      : [];
+
   return (
-    <SimpleTable>
-      <TableHead>
-        <TableRow>
-          <TableCell>Moneda</TableCell>
-          <TableCell>Código ISO</TableCell>
-          <TableCell>Símbolo</TableCell>
-          <TableCell>Acciones</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {props.currencies.map((currency) => (
-          <TableRow key={currency.id}>
-            <TableCell>{currency.name}</TableCell>
-            <TableCell>{currency.ISO}</TableCell>
-            <TableCell>{currency.symbol}</TableCell>
-            <TableCell>
-              <button className='btn btn-warning'>
-                <Edit /> Editar
-              </button>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </SimpleTable>
+    <Table
+      columns={props.columns}
+      data={data}
+      options={{
+        search: false,
+        actionsColumnIndex: -1,
+      }}
+      actions={props.actions}
+    />
   );
 };
 

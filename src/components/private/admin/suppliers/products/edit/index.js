@@ -155,7 +155,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getProductData: (productId) => dispatch(actions.getProductData(productId)),
+  // getProductData: (productId) => dispatch(actions.getProductData(productId)),
   editProduct: (values, supplierId, productId) => dispatch(actions.editProductInit(values, supplierId, productId)),
 });
 

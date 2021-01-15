@@ -26,6 +26,11 @@ const AdminNavItems = () => {
         </NavLink>
       </li>
       <li>
+        <NavLink to='/products'>
+          <i className='fa fa-archive' /> <span>Productos creados</span>
+        </NavLink>
+      </li>
+      <li>
         <NavLink to='/currencies'>
           <i className='fa fa-usd' /> <span>Monedas</span>
         </NavLink>

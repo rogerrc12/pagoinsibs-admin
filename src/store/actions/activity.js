@@ -5,15 +5,14 @@ import { setAlert } from "./alert";
 
 // GET ALL PAYMENTS DONE WITH CREDIT CARDS
 export const getCcPayments = () => async (dispatch) => {
-  try {
-    const res = await axios.get("/api/admin/activity/cc-payments");
-
-    dispatch({ type: actionTypes.CCPAYMENTS_LOADED, payload: res.data });
-  } catch (error) {
-    const errors = error.response.data.errors;
-    if (errors) dispatch(setAlert({ msg: errors[0].msg, icon: "error" }));
-    dispatch({ type: actionTypes.CCPAYMENTS_ERROR });
-  }
+  // try {
+  //   const res = await axios.get("/api/admin/activity/cc-payments");
+  //   dispatch({ type: actionTypes.CCPAYMENTS_LOADED, payload: res.data });
+  // } catch (error) {
+  //   const errors = error.response.data.errors;
+  //   if (errors) dispatch(setAlert({ msg: errors[0].msg, icon: "error" }));
+  //   dispatch({ type: actionTypes.CCPAYMENTS_ERROR });
+  // }
 };
 
 // GET ALL BANKS
@@ -39,8 +38,28 @@ export const getCurrencies = (currencies) => ({
   currencies,
 });
 
-export const getCurrenciesError = () => ({
-  type: actionTypes.GET_CURRENCIES_ERROR,
+export const getCurrencyInit = (currencyId) => ({
+  type: actionTypes.GET_CURRENCY_INIT,
+  currencyId,
+});
+
+export const getCurrency = (currencyData) => ({
+  type: actionTypes.GET_CURRENCY_SUCCESS,
+  currencyData,
+});
+
+export const editCurrencyInit = (currencyId, values) => ({
+  type: actionTypes.EDIT_CURRENCY_INIT,
+  currencyId,
+  values,
+});
+
+export const editCurrency = () => ({
+  type: actionTypes.EDIT_CURRENCY_SUCCESS,
+});
+
+export const currencyError = () => ({
+  type: actionTypes.CURRENCY_ERROR,
 });
 
 // GENERATE REPORT

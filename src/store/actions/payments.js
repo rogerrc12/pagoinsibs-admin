@@ -1,7 +1,5 @@
 import axios from "../../helpers/axios";
 import * as actionTypes from "../constants";
-import { setAlert } from "./alert";
-import SweetAlert from "../../components/UI/SweetAlert";
 
 // GET PAYMENTS PENDING COUNT
 export const getPaymentsCount = (status) => async (dispatch) => {
@@ -20,72 +18,58 @@ export const getPaymentsCount = (status) => async (dispatch) => {
   }
 };
 
-// GET ALL PAYMENTS BASED ON STATUS
-export const getPayments = (status) => async (dispatch) => {
-  dispatch({ type: actionTypes.SET_LOADING });
+export const getPaymentsInit = (status) => ({
+  type: actionTypes.GET_PAYMENTS_INIT,
+  status,
+});
 
-  try {
-    const res = await axios.get(`/api/admin/payments?status=${status}`);
-    dispatch({ type: actionTypes.REMOVE_LOADING });
+export const getPaymentsSuccess = (allPayments, pending, processing) => ({
+  type: actionTypes.GET_PAYMENTS_SUCCESS,
+  payload: { allPayments, pending, processing },
+});
 
-    if (status === "pending") {
-      return dispatch({ type: actionTypes.PENDING_ACCPAYMENTS_LOADED, payload: res.data });
-    }
-    return dispatch({ type: actionTypes.ACCPAYMENTS_LOADED, payload: res.data });
-  } catch (error) {
-    const { message } = error.response.data;
-    dispatch({ type: actionTypes.REMOVE_LOADING });
-    if (message) dispatch(setAlert({ msg: message, icon: "error" }));
-    return dispatch({ type: actionTypes.ACCPAYMENTS_ERROR });
-  }
-};
+export const getPaymentDetailsInit = (id) => ({
+  type: actionTypes.GET_PAYMENT_DETAILS_INIT,
+  id,
+});
 
-// GET ACC PAYMENT DETAILS
-export const getAccPaymentDetail = (id) => async (dispatch) => {
-  try {
-    const res = await axios.get(`/api/admin/payments/${id}`);
+export const getPaymentDetailsSuccess = (details) => ({
+  type: actionTypes.GET_PAYMENT_DETAILS_SUCCESS,
+  details,
+});
 
-    dispatch({ type: actionTypes.GET_ACCPAYMENT_DETAILS, payload: res.data });
-  } catch (error) {
-    const { errors } = error.response.data;
-    if (errors) dispatch(setAlert({ msg: errors[0].msg, icon: "error" }));
-    dispatch({ type: actionTypes.GET_ACCPAYMENT_DETAILS_ERROR });
-  }
-};
+export const processPaymentInit = (id) => ({
+  type: actionTypes.PROCESS_PAYMENT_INIT,
+  id,
+});
 
-export const addPaymentToBank = (id) => async (dispatch) => {
-  if (id) {
-    dispatch({ type: actionTypes.SET_LOADING });
+export const processPaymentSuccess = () => ({
+  type: actionTypes.PROCESS_PAYMENT_SUCCESS,
+});
 
-    try {
-      const res = await axios.post(`/api/admin/bank-payments/payment/${id}`);
-      dispatch({ type: actionTypes.REMOVE_LOADING });
+export const processBulkPaymentsInit = (payments) => ({
+  type: actionTypes.PROCESS_BULK_PAYMENTS_INIT,
+  payments,
+});
 
-      dispatch({ type: actionTypes.GET_ACCPAYMENT_DETAILS, payload: res.data });
-      return dispatch(setAlert({ msg: "El pago ha sido agredado correctamente para procesarse.", icon: "success" }));
-    } catch (error) {
-      const { message } = error.response.data;
-      if (message) dispatch(setAlert({ msg: message, icon: "error" }));
-      dispatch({ type: actionTypes.REMOVE_LOADING });
-      return dispatch({ type: actionTypes.ADD_PAYMENT_BANK_ERROR });
-    }
-  } else return null;
-};
+export const processBulkPaymentsSuccess = () => ({
+  type: actionTypes.PROCESS_BULK_PAYMENTS_SUCCESS,
+});
 
-export const processPayments = (payments) => async (dispatch) => {
-  dispatch({ type: actionTypes.SET_LOADING });
+export const cancelPaymentInit = (id) => ({
+  type: actionTypes.CANCEL_PAYMENT_INIT,
+  id,
+});
 
-  try {
-    const config = { headers: { "Content-Type": "application/json" } };
-    const body = JSON.stringify({ payments });
-    const res = await axios.post("/api/admin/bank-payments/payments", body, config);
-    SweetAlert("Procesados!", res.data.message, "success");
-    dispatch({ type: actionTypes.REMOVE_LOADING });
+export const cancelPaymentSuccess = () => ({
+  type: actionTypes.CANCEL_PAYMENT_SUCCESS,
+});
 
-    return dispatch(getPayments("pending"));
-  } catch (error) {
-    const { message } = error.response.data;
-    if (message) SweetAlert("Error!", message, "error");
-    return dispatch({ type: actionTypes.REMOVE_LOADING });
-  }
-};
+export const paymentsError = (msg) => ({
+  type: actionTypes.PAYMENTS_ERROR,
+  msg,
+});
+
+export const clearPaymentsError = () => ({
+  type: actionTypes.CLEAR_PAYMENTS_ERROR,
+});

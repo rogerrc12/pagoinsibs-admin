@@ -16,9 +16,9 @@ const NavItems = (props) => {
         </button>
       </li>
       <ul className='treeview-menu'>
-        <NavItem link='/users-pending-payments'>Pendientes</NavItem>
-        <NavItem link='/users-payments'>Recibidos</NavItem>
-        <NavItem link='/users-tdc-payments'>Con tarjeta</NavItem>
+        <NavItem link='/payments/dolares'>En dólares</NavItem>
+        <NavItem link='/payments/bolivares'>En bolívares</NavItem>
+        <NavItem link='/all-payments'>Totales</NavItem>
       </ul>
       <li onClick={props.toggleMenu} className='treeview'>
         <button>
@@ -29,8 +29,9 @@ const NavItems = (props) => {
         </button>
       </li>
       <ul className='treeview-menu'>
-        <NavItem link='/pending-direct-debits'>Pendientes</NavItem>
-        <NavItem link='/direct-debits'>Recibidas</NavItem>
+        <NavItem link='/debits/dolares'>En dólares</NavItem>
+        <NavItem link='/debits/bolivares'>En bolívares</NavItem>
+        <NavItem link='/all-debits'>Totales</NavItem>
       </ul>
     </>
   );

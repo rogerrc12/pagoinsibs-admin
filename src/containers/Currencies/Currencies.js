@@ -1,23 +1,37 @@
 import React from "react";
-import { Route, Link } from "react-router-dom";
+import { Route } from "react-router-dom";
+import { EditRounded } from "@material-ui/icons";
 import { connect } from "react-redux";
+import history from "../../helpers/history";
+
 import CurrenciesTable from "../../components/tables/CurrenciesTable";
-import AddCurrency from "./AddCurrencies";
+import EditCurrency from "./EditCurrency";
+
+const columns = [
+  { title: "Moneda", field: "name" },
+  { title: "Código ISO", field: "ISO" },
+  { title: "Símbolo", field: "symbol" },
+  { title: "Tasa compra", field: "buyPrice" },
+  { title: "Tasa venta", field: "sellPrice" },
+];
 
 const Currencies = (props) => {
+  const editCurrency = (id) => history.push(props.match.url + "/edit/" + id);
+
   return (
     <>
       <section className='content-header'>
         <h2 className='font-weight-bold'>Monedas disponibles</h2>
-        <Link to={props.match.url + "/add"} className='btn btn-primary'>
-          <i className='fa fa-plus' /> Agregar moneda
-        </Link>
       </section>
       <section className='content'>
-        <CurrenciesTable currencies={props.currencies} />
+        <CurrenciesTable
+          columns={columns}
+          data={props.currencies}
+          actions={[{ icon: () => <EditRounded fontSize='large' style={{ color: "#f0ad4e" }} />, onClick: (e, rowData) => editCurrency(rowData.id) }]}
+        />
       </section>
 
-      <Route path={props.match.url + "/add"} component={AddCurrency} />
+      <Route path={props.match.url + "/edit/:currencyId"} component={EditCurrency} />
     </>
   );
 };

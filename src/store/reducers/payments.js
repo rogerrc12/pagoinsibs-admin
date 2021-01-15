@@ -1,48 +1,51 @@
-import {
-  ACCPAYMENTS_LOADED,
-  ACCPAYMENTS_ERROR,
-  GET_PAYMENTS_COUNT,
-  GET_PAYMENTS_COUNT_ERROR,
-  GET_PENDING_PAYMENTS_COUNT,
-  GET_PENDING_PAYMENTS_COUNT_ERROR,
-  GET_ACCPAYMENT_DETAILS,
-  GET_ACCPAYMENT_DETAILS_ERROR,
-  PENDING_ACCPAYMENTS_LOADED,
-} from "..//constants";
+import * as types from "../constants";
 
 const initialState = {
-  pending_acc_payments: [],
-  acc_payments: [],
-  acc_payment_detail: {},
-  pending_payments_count: 0,
-  payments_count: 0,
+  pendingPayments: [],
+  processingPayments: [],
+  allPayments: [],
+  paymentDetails: {},
+  pendingCount: 0,
+  count: 0,
+  error: "",
+  processing: false,
+  loading: true,
 };
 
 export default function (state = initialState, action = {}) {
   const { type, payload } = action;
 
   switch (type) {
-    case ACCPAYMENTS_LOADED:
-      return { ...state, acc_payments: payload };
-    case PENDING_ACCPAYMENTS_LOADED:
-      return { ...state, pending_acc_payments: payload };
-    case ACCPAYMENTS_ERROR:
-      return { ...state, acc_payments: null };
+    case types.GET_PAYMENTS_SUCCESS:
+      return {
+        ...state,
+        allPayments: payload.allPayments,
+        pendingPayments: payload.pending,
+        processingPayments: payload.processing,
+        count: payload.allPayments.length,
+        pendingCount: payload.pending.length,
+      };
 
-    case GET_ACCPAYMENT_DETAILS:
-      return { ...state, acc_payment_detail: payload };
-    case GET_ACCPAYMENT_DETAILS_ERROR:
-      return { ...state, acc_payment_detail: {} };
+    case types.GET_PAYMENT_DETAILS_SUCCESS:
+      return { ...state, paymentDetails: action.details };
 
-    case GET_PAYMENTS_COUNT:
-      return { ...state, payments_count: payload };
-    case GET_PAYMENTS_COUNT_ERROR:
-      return { ...state, payments_count: 0 };
+    case types.PROCESS_PAYMENT_INIT:
+    case types.CANCEL_PAYMENT_INIT:
+      return { ...state, processing: true };
+    case types.PROCESS_PAYMENT_SUCCESS:
+    case types.CANCEL_PAYMENT_SUCCESS:
+      return { ...state, processing: false };
 
-    case GET_PENDING_PAYMENTS_COUNT:
+    case types.GET_PENDING_PAYMENTS_COUNT:
       return { ...state, pending_payments_count: payload };
-    case GET_PENDING_PAYMENTS_COUNT_ERROR:
+    case types.GET_PENDING_PAYMENTS_COUNT_ERROR:
       return { ...state, pending_payments_count: 0 };
+
+    case types.PAYMENTS_ERROR:
+      return { ...state, error: action.msg, processing: false, loading: false };
+
+    case types.CLEAR_PAYMENTS_ERROR:
+      return { ...state, error: "" };
 
     default:
       return state;

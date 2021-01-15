@@ -29,6 +29,19 @@ export const supplierValues = (values) => {
 
 export const currencyFormValues = (values) => ({
   name: values.name || "",
-  ISO: values.ISO || "",
+  buyPrice: values.buyPrice || "",
+  sellPrice: values.sellPrice || "",
   symbol: values.symbol || "",
+});
+
+export const accountValues = (values) => ({ bank_id: "", acc_number: "", acc_type: "" });
+
+export const productValues = (values) => ({
+  name: values.name || "",
+  amount: Number(values.amount) || 0,
+  isDirectDebit: values.isDirectDebit || false,
+  currencyConversion: values.currencyConversion || false,
+  interestRate: Number(values.interestRate) || 0,
+  maxDebitMonths: values.maxDebitMonths || "",
+  currencyId: values.currencyId || "",
 });

@@ -232,8 +232,9 @@ select#filter {
 .status {
   color: #fff !important;
   text-transform: uppercase;
-  padding: 0.5rem;
-  max-width: 100%;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  display: inline-block;
   font-weight: bold !important;
   text-align: center !important;
 }
@@ -246,14 +247,14 @@ select#filter {
   background-color: rgb(2, 128, 170);
 }
 
-.status.exitosa,
-.status.cobrada {
+.status.exitoso,
+.status.cobrado {
   background-color: rgb(3, 184, 75);
 }
 
-.status.fallida,
-.status.cancelada,
-.status.vencida {
+.status.fallido,
+.status.cancelado,
+.status.vencido {
   background-color: #ff4444;
 }
 
@@ -352,17 +353,17 @@ select#filter {
 }
 
 .table-button {
-  padding: 0.5rem;
+  padding: 0.5rem 0.7rem;
   color: #fff;
   background-color: #0099cc;
   font-weight: bold;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 3px;
   transition: 250ms ease-out;
-  max-width: 11.5rem;
   margin: 0.5rem auto;
+  font-size: 0.95rem;
 }
 
 .table-button.profile {
@@ -507,4 +508,21 @@ select#filter {
 
 .MuiTypography-root.MuiPaper-root.MuiPaper-elevation6.MuiSnackbarContent-root.MuiTypography-body2 {
   flex-flow: row;
+}
+
+.Alert {
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
+  z-index: 999;
+}
+
+.MuiAlert-message {
+  font-size: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+  .MuiAlert-message {
+    font-size: 1.15rem;
+  }
 }

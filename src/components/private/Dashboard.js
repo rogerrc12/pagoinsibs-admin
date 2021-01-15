@@ -1,28 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 // connect
 import { connect } from "react-redux";
-import { getPaymentsCount } from "../../store/actions/payments";
-import { getDebitsCount } from "../../store/actions/debits";
-import { getSuppliers } from "../../store/actions/suppliers";
 
-const Dashboard = ({ getPaymentsCount, getDebitsCount, getSuppliers, payments, debits }) => {
-  // get acc payments count
-  useEffect(() => {
-    getPaymentsCount();
-  }, [getPaymentsCount]);
-
-  // get direct debits count
-  useEffect(() => {
-    getDebitsCount();
-  }, [getDebitsCount]);
-
-  // get suppliers
-  useEffect(() => {
-    getSuppliers();
-  }, [getSuppliers]);
-
+const Dashboard = ({ payments, debits }) => {
   return (
     <section className='content'>
       <div className='row'>
@@ -80,27 +62,17 @@ const Dashboard = ({ getPaymentsCount, getDebitsCount, getSuppliers, payments, d
 };
 
 Dashboard.propTypes = {
-  getPaymentsCount: PropTypes.func.isRequired,
-  getDebitsCount: PropTypes.func.isRequired,
   activity: PropTypes.object.isRequired,
   payments: PropTypes.number.isRequired,
   debits: PropTypes.number.isRequired,
-  loading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
     activity: state.activity,
-    loading: state.loading.loading,
-    payments: state.payments.payments_count,
-    debits: state.debits.debits_count,
+    payments: state.payments.count,
+    debits: state.debits.count,
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  getSuppliers: () => dispatch(getSuppliers()),
-  getPaymentsCount: () => dispatch(getPaymentsCount()),
-  getDebitsCount: () => dispatch(getDebitsCount()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps)(Dashboard);

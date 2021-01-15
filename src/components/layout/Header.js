@@ -1,34 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { NavLink, Link, withRouter } from "react-router-dom";
 // REDUX
 import { connect } from "react-redux";
 import { logout } from "../../store/actions/auth";
-import { getDebitsCount } from "../../store/actions/debits";
-import { getPaymentsCount } from "../../store/actions/payments";
 
-const Header = withRouter(({ user, logout, pendingPayments, pendingDebits, getPaymentsCount, getDebitsCount, location }) => {
-  const { pathname } = location;
-  const prevPath = useRef();
-
-  // get pending payments
-  useEffect(() => {
-    if (prevPath.current !== pathname) {
-      return () => getPaymentsCount("pending");
-    } else {
-      getPaymentsCount("pending");
-    }
-  }, [getPaymentsCount, pathname]);
-
-  // get pending debits
-  useEffect(() => {
-    if (prevPath.current !== pathname) {
-      return () => getDebitsCount("pending");
-    } else {
-      getDebitsCount("pending");
-    }
-  }, [getDebitsCount, pathname]);
-
+const Header = ({ user, logout, pendingPayments, pendingDebits }) => {
   const totalTransactions = pendingPayments + pendingDebits;
 
   return (
@@ -58,16 +35,12 @@ const Header = withRouter(({ user, logout, pendingPayments, pendingDebits, getPa
               <li className='dropdown notifications-menu'>
                 <a href='/' className='dropdown-toggle' data-toggle='dropdown'>
                   <i className='fa fa-bell-o' />
-                  <span
-                    style={{ fontSize: "13px" }}
-                    className={`label ${totalTransactions === 0 ? "label-info" : totalTransactions < 5 ? "label-warning" : "label-danger"}`}>
+                  <span style={{ fontSize: "13px" }} className={`label ${totalTransactions === 0 ? "label-info" : totalTransactions < 5 ? "label-warning" : "label-danger"}`}>
                     {totalTransactions}
                   </span>
                 </a>
                 <ul className='dropdown-menu'>
-                  <li className='header'>
-                    {totalTransactions === 0 ? "No hay transacciones pendientes" : `Tienes ${totalTransactions} transacciones pendientes`}
-                  </li>
+                  <li className='header'>{totalTransactions === 0 ? "No hay transacciones pendientes" : `Tienes ${totalTransactions} transacciones pendientes`}</li>
                   {totalTransactions === 0 ? null : (
                     <li>
                       <ul className='menu'>
@@ -118,7 +91,8 @@ const Header = withRouter(({ user, logout, pendingPayments, pendingDebits, getPa
                         onClick={(e) => {
                           e.preventDefault();
                           logout();
-                        }}>
+                        }}
+                      >
                         cerrar sesión
                       </a>
                     </div>
@@ -132,7 +106,8 @@ const Header = withRouter(({ user, logout, pendingPayments, pendingDebits, getPa
                   onClick={(e) => {
                     e.preventDefault();
                     logout();
-                  }}>
+                  }}
+                >
                   <i className='fa fa-sign-out' />
                 </a>
               </li>
@@ -142,13 +117,10 @@ const Header = withRouter(({ user, logout, pendingPayments, pendingDebits, getPa
       </header>
     </>
   );
-});
+};
 
 Header.propTypes = {
   user: PropTypes.object.isRequired,
-  logout: PropTypes.func.isRequired,
-  getPaymentsCount: PropTypes.func.isRequired,
-  getDebitsCount: PropTypes.func.isRequired,
   pendingDebits: PropTypes.number.isRequired,
   pendingPayments: PropTypes.number.isRequired,
 };
@@ -156,9 +128,9 @@ Header.propTypes = {
 const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
-    pendingDebits: state.debits.pending_debits_count,
-    pendingPayments: state.payments.pending_payments_count,
+    pendingDebits: state.debits.pendingCount,
+    pendingPayments: state.payments.pendingCount,
   };
 };
 
-export default connect(mapStateToProps, { logout, getPaymentsCount, getDebitsCount })(Header);
+export default connect(mapStateToProps, { logout })(withRouter(Header));

@@ -1,55 +1,50 @@
-import {
-  DEBITS_LOADED,
-  DEBITS_ERROR,
-  GET_PENDING_DEBITS,
-  GET_PENDING_DEBITS_ERROR,
-  GET_DEBIT_FEES,
-  GET_DEBIT_FEES_ERROR,
-  GET_DEBITS_COUNT,
-  GET_PENDING_DEBITS_COUNT,
-  GET_DEBITS_COUNT_ERROR,
-  GET_DEBIT_DETAILS,
-  GET_DEBIT_DETAILS_ERROR,
-} from "..//constants";
+import * as types from "../constants";
 const initialstate = {
-  pending_debits: [],
-  debits: [],
+  pendingDebits: [],
+  processingDebits: [],
+  allDebits: [],
   debit_detail: {},
   debit_fees: [],
-  pending_debits_count: 0,
-  debits_count: 0,
+  pendingCount: 0,
+  count: 0,
+  processing: false,
+  loading: true,
+  error: "",
 };
 
 export default function (state = initialstate, action = {}) {
-  const { type, payload } = action;
+  const { type } = action;
 
   switch (type) {
-    case DEBITS_LOADED:
-      return { ...state, debits: payload };
-    case DEBITS_ERROR:
-      return { ...state, debits: [] };
+    case types.PROCESS_DEBIT_FEE_INIT:
+    case types.CANCEL_DEBIT_INIT:
+      return { ...state, processing: true };
 
-    case GET_PENDING_DEBITS:
-      return { ...state, pending_debits: payload };
-    case GET_PENDING_DEBITS_ERROR:
-      return { ...state, pending_debits: [] };
+    case types.PROCESS_DEBIT_FEE_SUCCESS:
+    case types.CANCEL_DEBIT_SUCCESS:
+      return { ...state, processing: false };
 
-    case GET_DEBIT_DETAILS:
-      return { ...state, debit_detail: payload };
-    case GET_DEBIT_DETAILS_ERROR:
-      return { ...state, debit_detail: {} };
+    case types.GET_DEBITS_SUCCESS:
+      return {
+        ...state,
+        pendingDebits: action.pending,
+        processingDebits: action.processing,
+        allDebits: action.allDebits,
+        count: action.allDebits.length,
+        pendingCount: action.pending.length,
+        loading: false,
+      };
 
-    case GET_DEBITS_COUNT:
-      return { ...state, debits_count: payload };
-    case GET_PENDING_DEBITS_COUNT:
-      return { ...state, pending_debits_count: payload };
-    case GET_DEBITS_COUNT_ERROR:
-      return { ...state, debits_count: 0, pending_debits_count: 0 };
+    case types.GET_DEBIT_DETAILS_SUCCESS:
+      return { ...state, debit_detail: action.details, loading: false };
 
-    case GET_DEBIT_FEES:
-      return { ...state, debit_fees: payload };
-    case GET_DEBIT_FEES_ERROR:
-      return { ...state, debit_fees: [] };
+    case types.GET_DEBIT_FEES_SUCCESS:
+      return { ...state, debit_fees: action.fees, loading: false };
+
+    case types.DEBITS_ERROR:
+      return { ...state, error: action.msg, processing: false, loading: false };
+    case types.CLEAR_DEBITS_ERROR:
+      return { ...state, error: "" };
 
     default:
       return state;
