@@ -15,17 +15,7 @@ const CurrenciesTable = (props) => {
         }))
       : [];
 
-  return (
-    <Table
-      columns={props.columns}
-      data={data}
-      options={{
-        search: false,
-        actionsColumnIndex: -1,
-      }}
-      actions={props.actions}
-    />
-  );
+  return <Table columns={props.columns} data={data} options={{ search: false, actionsColumnIndex: -1 }} actions={props.actions} />;
 };
 
 export default CurrenciesTable;

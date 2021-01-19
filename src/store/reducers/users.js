@@ -1,54 +1,48 @@
 import {
-  GET_USERS,
-  GETUSERS_ERROR,
+  GET_USERS_SUCCESS,
   PROFILE_DATA,
-  PROFILE_ERROR,
-  EDIT_USER,
-  EDIT_USER_ERROR,
   GET_SUBSCRIBERS,
-  GETSUBSCRIBERS_ERROR,
-  DELETE_USER,
-  DELETE_USER_ERROR,
-  ADD_USER,
-  ADD_USER_ERROR,
-  GET_USER,
-  GET_USER_ERROR,
-} from "..//constants";
+  USERS_ERROR,
+  ADD_USER_SUCCESS,
+  ADD_USER_INIT,
+  GET_USERS_INIT,
+  GET_USER_DATA_SUCCESS,
+  EDIT_USER_INIT,
+} from "../constants";
 
 const initialState = {
   subscribers: [],
-  users: [],
+  adminUsers: [],
   profile: { information: {}, accounts: [], payments: [] },
   userInfo: {},
+  isLoading: true,
+  isProcessing: false,
+  error: "",
 };
 
 export default function (state = initialState, action = {}) {
   const { type, payload } = action;
 
   switch (type) {
-    case GET_USERS:
-    case ADD_USER:
-    case EDIT_USER:
-    case DELETE_USER:
-      return { ...state, users: payload };
-    case GET_USER:
-      return { ...state, userInfo: payload };
+    case ADD_USER_INIT:
+    case GET_USERS_INIT:
+    case EDIT_USER_INIT:
+      return { ...state, isLoading: true };
+
+    case GET_USERS_SUCCESS:
+      return { ...state, adminUsers: action.users, isLoading: false };
+
+    case ADD_USER_SUCCESS:
+      return { ...state, isProcessing: false, isLoading: false };
+
+    case GET_USER_DATA_SUCCESS:
+      return { ...state, userInfo: action.data };
     case GET_SUBSCRIBERS:
       return { ...state, subscribers: payload };
-    case GETUSERS_ERROR:
-      return { ...state, users: [] };
-    case GET_USER_ERROR:
-      return { ...state, userInfo: {} };
-    case GETSUBSCRIBERS_ERROR:
-      return { ...state, subscribers: [] };
     case PROFILE_DATA:
       return { ...state, profile: payload };
-    case PROFILE_ERROR:
-      return { ...state, profile: { information: {}, bank_accounts: { to_send: [], to_receive: [] }, transactions: [] } };
-    case DELETE_USER_ERROR:
-    case ADD_USER_ERROR:
-    case EDIT_USER_ERROR:
-      return { ...state };
+    case USERS_ERROR:
+      return { ...state, error: action.msg, isLoading: false };
     default:
       return state;
   }

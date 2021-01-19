@@ -10,9 +10,7 @@ import PrivateRoute from "../components/routing/PrivateRoute";
 // Private Routes
 import dashboard from "../components/private/Dashboard";
 import GenerateReport from "../components/private/generateReport";
-import Users from "../components/private/admin/users";
-import AddUser from "../components/private/admin/users/form/Add";
-import EditUser from "../components/private/admin/users/form/Edit";
+import AdminUsers from "./AdminUsers";
 import Subscribers from "../components/private/admin/subscribers/Subscribers";
 import SubscribersProfile from "../components/private/admin/subscribers/profile";
 import Currencies from "./Currencies/Currencies";
@@ -83,9 +81,7 @@ const MainApp = (props) => {
           <PrivateRoute exact path='/bank-payments' component={BankPayments} />
 
           {/* All Admin users routes */}
-          <PrivateRoute exact path='/users' component={Users} />
-          <PrivateRoute exact path='/users/add-user' component={AddUser} />
-          <PrivateRoute exact path='/users/edit-user/:id' component={EditUser} />
+          <PrivateRoute path='/users' component={AdminUsers} />
 
           {/* All Subscribers routes */}
           <PrivateRoute exact path='/subscribers' component={Subscribers} />
