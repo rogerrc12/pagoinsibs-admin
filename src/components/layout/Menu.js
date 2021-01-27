@@ -75,7 +75,7 @@ const Menu = ({ auth: { user } }) => {
               <Link to='/bank-payments?bankId=0102&bankName=Venezuela'>Venezuela</Link>
             </li>
           </ul>
-          {user.role.roleName === "manager" || (user.role.roleName === "admin" && <AdminNavItems />)}
+          {(user.roleId === 2 || user.roleId === 1) && <AdminNavItems />}
         </ul>
       </section>
       {/* /.sidebar */}

@@ -80,7 +80,7 @@ const EditProduct = (props) => {
                       )}
                     </div>
                     <SubmitButton disabled={!isValid} className='btn-primary'>
-                      Editar producto
+                      {product_id ? "Editar" : "Agregar"} producto
                     </SubmitButton>
                   </Form>
                 )}

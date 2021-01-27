@@ -10,10 +10,6 @@ export const getProducts = (products) => ({
   products,
 });
 
-export const getProductsError = () => ({
-  type: actionTypes.GET_PRODUCTS_ERROR,
-});
-
 // GET PRODUCTS BY SUPPLIER ID
 export const getSupplierProductsInit = (supplierId) => ({
   type: actionTypes.GET_SUPPLIER_PRODUCTS_INIT,
@@ -25,24 +21,11 @@ export const getSupplierProducts = (supplierProducts) => ({
   supplierProducts,
 });
 
-export const getSupplierProductsError = () => ({
-  type: actionTypes.GET_SUPPLIER_PRODUCTS_ERROR,
-});
-
 // ADD NEW PRODUCT
 export const addProductInit = (values, supplierId) => ({
   type: actionTypes.ADD_PRODUCT_INIT,
   values,
   supplierId,
-});
-
-export const addProduct = (products) => ({
-  type: actionTypes.ADD_PRODUCT_SUCCESS,
-  products,
-});
-
-export const addProductError = () => ({
-  type: actionTypes.ADD_PRODUCT_ERROR,
 });
 
 // GET PRODUCT DATA
@@ -56,22 +39,10 @@ export const getProductData = (productData) => ({
   productData,
 });
 
-export const getProductDataError = () => ({
-  type: actionTypes.GET_PRODUCT_DATA_ERROR,
-});
-
 export const editProductInit = (values, productId) => ({
   type: actionTypes.EDIT_PRODUCT_INIT,
   values,
   productId,
-});
-
-export const editProduct = () => ({
-  type: actionTypes.EDIT_PRODUCT_SUCCESS,
-});
-
-export const editProductError = () => ({
-  type: actionTypes.EDIT_PRODUCT_ERROR,
 });
 
 // DELETE PRODUCT
@@ -81,10 +52,7 @@ export const deleteProductInit = (supplierId, productId) => ({
   productId,
 });
 
-export const deleteProduct = () => ({
-  type: actionTypes.DELETE_PRODUCT_SUCCESS,
-});
-
-export const deleteProductError = () => ({
-  type: actionTypes.DELETE_PRODUCT_ERROR,
+export const productsError = (msg) => ({
+  type: actionTypes.PRODUCTS_ERROR,
+  msg,
 });

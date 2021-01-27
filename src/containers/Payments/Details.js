@@ -13,6 +13,8 @@ const PaymentDetail = ({ getPaymentDetailsInit, processPaymentInit, cancelPaymen
     getPaymentDetailsInit(paymentId);
   }, [getPaymentDetailsInit, paymentId]);
 
+  console.log(detail);
+
   const detailList = () =>
     detail.user ? (
       <>
@@ -29,13 +31,7 @@ const PaymentDetail = ({ getPaymentDetailsInit, processPaymentInit, cancelPaymen
               {detail.user.phone}
               <br />
               <br />
-              {detail.paymentType !== "account" ? (
-                <>
-                  <strong>Forma de pago:</strong>
-                  <br />
-                  {detail.paymentType}
-                </>
-              ) : (
+              {detail.paymentType === "account" && (
                 <>
                   <strong>Cuenta a debitar:</strong>
                   <br />
@@ -45,6 +41,39 @@ const PaymentDetail = ({ getPaymentDetailsInit, processPaymentInit, cancelPaymen
                   <br />
                   {detail.accType}
                   <br />
+                </>
+              )}
+              {(detail.paymentType === "zelle" || detail.paymentType === "paypal") && (
+                <>
+                  <strong>Forma de pago:</strong>
+                  <br />
+                  {detail.paymentType}
+                  <br />
+                  <br />
+                </>
+              )}
+              {detail.paypalEmail && (
+                <>
+                  <strong>Correo de pago de Paypal:</strong>
+                  <br />
+                  {detail.paypalEmail}
+                  <br />
+                </>
+              )}
+              {detail.paypalPaymentId && (
+                <>
+                  <strong>ID de pago de Paypal:</strong>
+                  <br />
+                  {detail.paypalPaymentId}
+                </>
+              )}
+              {detail.zelleFileUrl && (
+                <>
+                  <strong>Captura de pago zelle:</strong>
+                  <br />
+                  <a href={detail.zelleFileUrl} style={{ marginTop: 7, display: "inline-block" }} target='_blank' rel='noopener noreferrer'>
+                    <img src={detail.zelleFileUrl} alt='captura de pago' width={100} />
+                  </a>
                 </>
               )}
             </address>

@@ -12,6 +12,7 @@ const Products = (props) => {
   const onePaymentColumns = [
     { title: "Nombre", field: "name" },
     { title: "Monto", field: "amount" },
+    { title: "Multimoneda", field: "currencyConversion" },
     { title: "Empresa", field: "supplier" },
   ];
 
@@ -19,6 +20,7 @@ const Products = (props) => {
     { title: "Nombre", field: "name" },
     { title: "Monto", field: "amount" },
     { title: "Empresa", field: "supplier" },
+    { title: "Multimoneda", field: "currencyConversion" },
     { title: "Tasa de interes", field: "interestRate" },
     { title: "Meses de domiciliación", field: "maxDebitMonths" },
   ];

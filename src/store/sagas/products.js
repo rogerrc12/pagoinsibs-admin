@@ -1,24 +1,25 @@
-import { put, takeLatest, all, delay } from "redux-saga/effects";
+import { put, takeLatest, all, call } from "redux-saga/effects";
 import * as actionTypes from "../constants";
 import * as actions from "../actions";
 import axios from "../../helpers/axios";
 import history from "../../helpers/history";
+import Swal from "sweetalert2";
 
 function* getProducts() {
   try {
     const res = yield axios.get(`/api/admin/products`);
-    yield put(actions.getProducts(res.data));
+    if (res.status === 200) yield put(actions.getProducts(res.data));
   } catch (error) {
-    yield put(actions.getProductsError());
+    yield put(actions.productsError(error.data ? error.data.message : error.message));
   }
 }
 
 function* getSupplierProducts(action) {
   try {
     const res = yield axios.get(`/api/admin/products/${action.supplierId}`);
-    yield put(actions.getSupplierProducts(res.data));
+    if (res.status === 200) yield put(actions.getSupplierProducts(res.data));
   } catch (error) {
-    yield put(actions.getSupplierProductsError());
+    yield put(actions.productsError(error.data ? error.data.message : error.message));
   }
 }
 
@@ -27,10 +28,9 @@ function* getProductData(action) {
 
   try {
     const res = yield axios.get(`/api/admin/products/data/${id}`);
-
-    yield put(actions.getProductData(res.data));
+    if (res.status === 200) yield put(actions.getProductData(res.data));
   } catch (error) {
-    yield put(actions.getProductDataError());
+    yield put(actions.productsError(error.data ? error.data.message : error.message));
   }
 }
 
@@ -38,27 +38,26 @@ function* addProduct(action) {
   const { supplierId, values } = action;
 
   try {
-    const res = yield axios.post(`/api/admin/products/${supplierId}`, values, { headers: { "Content-Type": "application/json" } });
-    yield put(actions.setAlert({ msg: res.data.message, icon: "success" }));
-    yield delay(1500);
-    return yield history.push(`/suppliers/profile/${supplierId}`);
+    const res = yield axios.post(`/api/admin/products/${supplierId}`, values);
+
+    if (res.status === 200) {
+      yield Swal.fire("Exitoso", res.data.message, "success");
+      yield call(history.push, `/suppliers/profile/${supplierId}`);
+    }
   } catch (error) {
-    yield put(actions.setAlert({ msg: error.data.message, icon: "error" }));
-    yield put(actions.addProductError());
+    yield put(actions.productsError(error.data ? error.data.message : error.message));
   }
 }
 
-function* editProduct(action) {
+function* editProduct({ productId, values }) {
   try {
-    const res = yield axios.put(`/api/admin/products/${action.productId}`, action.values, {
-      headers: { "Content-Type": "application/json" },
-    });
-    yield put(actions.setAlert({ msg: res.data.message, icon: "success" }));
-    yield delay(1500);
-    return yield history.push(`/products`);
+    const res = yield axios.put(`/api/admin/products/${productId}`, values);
+    if (res.status === 200) {
+      yield Swal.fire("Exitoso", res.data.message, "success");
+      yield call(history.push, `/products`);
+    }
   } catch (error) {
-    yield put(actions.setAlert({ msg: error.data.message, icon: "error" }));
-    yield put(actions.editProductError());
+    yield put(actions.productsError(error.data ? error.data.message : error.message));
   }
 }
 
