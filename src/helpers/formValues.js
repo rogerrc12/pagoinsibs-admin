@@ -45,3 +45,5 @@ export const productValues = (values) => ({
   maxDebitMonths: values.maxDebitMonths || "",
   currencyId: values.currencyId || "",
 });
+
+export const reportValues = { reportType: "", fromDate: "", currencyId: "", toDate: "", bankId: "", supplierId: "" };

@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import PaymentsTable from "../../components/tables/PaymentsTable";
 // REDUX
 import { connect } from "react-redux";
 import { getPaymentsInit } from "../../store/actions";
+
+import PaymentsTable from "../../components/tables/payments/PaymentsTable";
 
 const PendingPayments = ({ getPaymentsInit, payments }) => {
   useEffect(() => {

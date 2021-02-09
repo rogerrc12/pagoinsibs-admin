@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUsersInit } from "../../store/actions/users";
 import history from "../../helpers/history";
 
-import UsersTable from "../../components/tables/AdminUsersTable";
+import AdminUsersTable from "../../components/tables/users/AdminUsersTable";
 import AddUser from "./AddUser";
 
 const AdminUsers = (props) => {
@@ -24,7 +24,7 @@ const AdminUsers = (props) => {
         <h2 className='font-weight-bold'>Usuarios administrativos</h2>
       </section>
       <section className='content'>
-        <UsersTable data={adminUsers} isLoading={isLoading} addUser={addUserHandler} editUser={editUserHandler} />
+        <AdminUsersTable data={adminUsers} isLoading={isLoading} addUser={addUserHandler} editUser={editUserHandler} />
       </section>
 
       <Route path={props.match.url + "/add-user"} component={AddUser} />

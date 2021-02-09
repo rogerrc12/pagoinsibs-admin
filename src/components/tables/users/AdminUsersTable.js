@@ -1,5 +1,5 @@
 import React from "react";
-import Table from "../UI/tables/Table";
+import Table from "../../UI/tables/Table";
 import { AddBox, EditRounded } from "@material-ui/icons";
 import moment from "moment";
 

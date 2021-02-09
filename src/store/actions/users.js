@@ -43,6 +43,30 @@ export const usersError = (msg) => ({
   msg,
 });
 
+export const getSubscribersInit = () => ({
+  type: actionTypes.GET_SUBSCRIBERS_INIT,
+});
+
+export const getSubscribersSuccess = (subscribers) => ({
+  type: actionTypes.GET_SUBSCRIBERS_SUCCESS,
+  subscribers,
+});
+
+export const getProfileInit = (id) => ({
+  type: actionTypes.GET_SUBS_PROFILE_INIT,
+  id,
+});
+
+export const getProfileSuccess = (profile) => ({
+  type: actionTypes.GET_SUBS_PROFILE_SUCCESS,
+  profile,
+});
+
+export const subscribersError = (msg) => ({
+  type: actionTypes.SUBSCRIBERS_ERROR,
+  msg,
+});
+
 // Get all subscribers
 export const getSubscribers = () => async (dispatch) => {
   // try {

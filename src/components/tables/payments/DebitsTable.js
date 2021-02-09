@@ -1,9 +1,9 @@
 import React from "react";
-import Table from "../UI/tables/Table";
+import Table from "../../UI/tables/Table";
 import { CheckBox, Tune } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { RotateLeft, SaveAltOutlined } from "@material-ui/icons";
-import { formatAmount } from "../../helpers/functions";
+import { formatAmount } from "../../../helpers/functions";
 import moment from "moment";
 
 const DebitsTable = (props) => {

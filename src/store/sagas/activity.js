@@ -4,6 +4,7 @@ import * as actions from "../actions";
 import axios from "../../helpers/axios";
 import history from "../../helpers/history";
 import Swal from "sweetalert2";
+import fileDownload from "js-file-download";
 
 function* getCurrencies() {
   try {
@@ -50,11 +51,29 @@ function* getBanks() {
   }
 }
 
+function* generateReport({ values }) {
+  const reportValues = { ...values };
+
+  if (values.reportType === "pending-bank") reportValues.currencyId = 1;
+
+  try {
+    const res = yield axios.post(`/api/admin/reports/${values.reportType}`, reportValues, { responseType: "blob" });
+
+    const fileName = res.headers["x-suggested-filename"];
+    fileDownload(res.data, fileName);
+    yield Swal.fire("Exitoso", "El reporte ha sido creado correctamente", "success");
+  } catch (error) {
+    if (error.status === 404) return yield Swal.fire("Error", "No se han encontrado registros para estas opciones y rangos de fecha.", "error");
+    return yield Swal.fire("Error", "Ha ocurrido un error generando el reporte.", "error");
+  }
+}
+
 export default function* () {
   yield all([
     takeLatest(actionTypes.GET_CURRENCIES_INIT, getCurrencies),
     takeLatest(actionTypes.GET_CURRENCY_INIT, getCurrencyData),
     takeLatest(actionTypes.EDIT_CURRENCY_INIT, editCurrency),
     takeLatest(actionTypes.GET_BANKS_INIT, getBanks),
+    takeLatest(actionTypes.GENERATE_REPORT_INIT, generateReport),
   ]);
 }

@@ -10,6 +10,7 @@ const initialState = {
   currencies: [],
   currencyData: {},
   error: "",
+  isLoading: false,
 };
 
 export default function (state = initialState, action = {}) {

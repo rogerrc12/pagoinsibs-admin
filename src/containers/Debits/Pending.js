@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import DebitsTable from "../../components/tables/DebitsTable";
 import { Alert } from "@material-ui/lab";
 // REDUX
 import { connect } from "react-redux";
 import { getDebitsInit, processBulkDebitsInit } from "../../store/actions";
+
+import DebitsTable from "../../components/tables/payments/DebitsTable";
 
 const PendingDebits = ({ getDebitsInit, processBulkDebitsInit, debits, match }) => {
   useEffect(() => {

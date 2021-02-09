@@ -9,10 +9,10 @@ import * as actions from "../store/actions";
 import PrivateRoute from "../components/routing/PrivateRoute";
 // Private Routes
 import dashboard from "../components/private/Dashboard";
-import GenerateReport from "../components/private/generateReport";
+import GenerateReport from "./Reports";
 import AdminUsers from "./AdminUsers";
-import Subscribers from "../components/private/admin/subscribers/Subscribers";
-import SubscribersProfile from "../components/private/admin/subscribers/profile";
+import Subscribers from "./Users/index";
+import SubscribersProfile from "./Users/Profile";
 import Currencies from "./Currencies/Currencies";
 import Products from "./Products/Products";
 // Suppliers imports

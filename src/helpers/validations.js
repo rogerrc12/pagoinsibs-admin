@@ -41,3 +41,17 @@ export const accountValidationForm = Yup.object().shape({
     .matches(/^[0-9]{20}$/, "Deben ser 20 caracteres. Por favor revisa los datos."),
   acc_type: Yup.string().required("Debes elegir un tipo de cuenta"),
 });
+
+export const reportValidation = Yup.object().shape({
+  fromDate: Yup.date().required("Debes seleccionar una fecha desde."),
+  toDate: Yup.date().required("Debes seleccionar una fecha hasta."),
+  reportType: Yup.string().required("Selecciona un tipo de reporte"),
+  bankId: Yup.string().when("reportType", {
+    is: ["pending-bank", "charged-payments"],
+    then: Yup.string().required("El banco es obligatorio para este reporte."),
+  }),
+  supplierId: Yup.number().when("reportType", {
+    is: "pending-supplier",
+    then: Yup.number().required("El comercio es obligatorio para este reporte."),
+  }),
+});

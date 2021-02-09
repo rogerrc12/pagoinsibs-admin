@@ -1,5 +1,5 @@
 import React from "react";
-import Table from "../UI/tables/Table";
+import Table from "../../UI/tables/Table";
 
 const columns = [
   { title: "Nombre del banco", field: "bankName" },

@@ -4,7 +4,7 @@ import { Alert } from "@material-ui/lab";
 import { connect } from "react-redux";
 import { getPaymentsInit, processBulkPaymentsInit } from "../../store/actions";
 
-import PaymentsTable from "../../components/tables/PaymentsTable";
+import PaymentsTable from "../../components/tables/payments/PaymentsTable";
 
 const PendingPayments = ({ getPaymentsInit, processBulkPaymentsInit, payments, match }) => {
   useEffect(() => {

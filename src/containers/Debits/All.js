@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import DebitsTable from "../../components/tables/DebitsTable";
+import DebitsTable from "../../components/tables/payments/DebitsTable";
 // REDUX
 import { connect } from "react-redux";
 import { getDebitsInit } from "../../store/actions";

@@ -8,7 +8,7 @@ import * as actions from "../../store/actions";
 
 import ProfileCard from "../../components/UI/Cards/ProfileCard";
 import ProductsTable from "../../components/tables/ProductsTable";
-import AccountsTable from "../../components/tables/AccountsTable";
+import AccountsTable from "../../components/tables/users/AccountsTable";
 
 const productColumns = [
   { title: "Nombre", field: "name" },
