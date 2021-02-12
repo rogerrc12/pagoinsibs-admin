@@ -8,7 +8,6 @@ import Swal from "sweetalert2";
 function* getSuppliers() {
   try {
     const res = yield axios.get("/api/admin/suppliers");
-
     yield put(actions.getSuppliers(res.data));
   } catch (error) {
     yield put(actions.getSuppliersError());

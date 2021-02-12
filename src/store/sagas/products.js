@@ -14,9 +14,9 @@ function* getProducts() {
   }
 }
 
-function* getSupplierProducts(action) {
+function* getSupplierProducts({ supplierId }) {
   try {
-    const res = yield axios.get(`/api/admin/products/${action.supplierId}`);
+    const res = yield axios.get(`/api/admin/products/${supplierId}`);
     if (res.status === 200) yield put(actions.getSupplierProducts(res.data));
   } catch (error) {
     yield put(actions.productsError(error.data ? error.data.message : error.message));
@@ -34,9 +34,7 @@ function* getProductData(action) {
   }
 }
 
-function* addProduct(action) {
-  const { supplierId, values } = action;
-
+function* addProduct({ supplierId, values }) {
   try {
     const res = yield axios.post(`/api/admin/products/${supplierId}`, values);
 
@@ -61,6 +59,26 @@ function* editProduct({ productId, values }) {
   }
 }
 
+function* deleteProduct({ productId, supplierId }) {
+  try {
+    const result = yield Swal.fire({
+      title: "¿Deseas eliminar este producto?",
+      text: "Esta acción no puede ser revertida",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonText: `Si, continuar`,
+      cancelButtonText: `No, cancelar`,
+    });
+    if (result.value) {
+      yield axios.delete(`/api/admin/products/${productId}`);
+      yield put(actions.getSupplierProductsInit(supplierId));
+      yield Swal.fire("Producto eliminado!", "El producto fue eliminado correctamente", "success");
+    }
+  } catch (error) {
+    yield put(actions.productsError(error.data ? error.data.message : error.message));
+  }
+}
+
 export default function* () {
   yield all([
     takeLatest(actionTypes.GET_PRODUCTS_INIT, getProducts),
@@ -68,5 +86,6 @@ export default function* () {
     takeLatest(actionTypes.GET_SUPPLIER_PRODUCTS_INIT, getSupplierProducts),
     takeLatest(actionTypes.ADD_PRODUCT_INIT, addProduct),
     takeLatest(actionTypes.EDIT_PRODUCT_INIT, editProduct),
+    takeLatest(actionTypes.DELETE_PRODUCT_INIT, deleteProduct),
   ]);
 }

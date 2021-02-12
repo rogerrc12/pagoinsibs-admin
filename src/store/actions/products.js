@@ -46,10 +46,10 @@ export const editProductInit = (values, productId) => ({
 });
 
 // DELETE PRODUCT
-export const deleteProductInit = (supplierId, productId) => ({
+export const deleteProductInit = (productId, supplierId) => ({
   type: actionTypes.DELETE_PRODUCT_INIT,
-  supplierId,
   productId,
+  supplierId,
 });
 
 export const productsError = (msg) => ({

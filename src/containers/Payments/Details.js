@@ -13,8 +13,6 @@ const PaymentDetail = ({ getPaymentDetailsInit, processPaymentInit, cancelPaymen
     getPaymentDetailsInit(paymentId);
   }, [getPaymentDetailsInit, paymentId]);
 
-  console.log(detail);
-
   const detailList = () =>
     detail.user ? (
       <>

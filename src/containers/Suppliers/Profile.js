@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-import { EditRounded, AddBox, DeleteForever } from "@material-ui/icons";
-import PropTypes from "prop-types";
+import { EditRounded, DeleteOutline, AddBox, DeleteForever } from "@material-ui/icons";
 import history from "../../helpers/history";
 // REDUX
-import { connect } from "react-redux";
-import * as actions from "../../store/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { getSupplierProfileInit, getSupplierProductsInit, deleteProductInit } from "../../store/actions";
 
 import ProfileCard from "../../components/UI/Cards/ProfileCard";
 import ProductsTable from "../../components/tables/ProductsTable";
@@ -19,21 +18,21 @@ const productColumns = [
 ];
 
 const SupplierProfile = (props) => {
-  const { getSupplierProfile, getSupplierProducts, products, supplierProfile } = props;
+  const dispatch = useDispatch();
+  const { supplierProducts } = useSelector((state) => state.products);
+  const { supplierProfile } = useSelector((state) => state.suppliers);
   const { id } = props.match.params;
 
   useEffect(() => {
-    getSupplierProfile(id);
-  }, [getSupplierProfile, id]);
-
-  useEffect(() => {
-    getSupplierProducts(id);
-  }, [getSupplierProducts, id]);
+    dispatch(getSupplierProfileInit(id));
+    dispatch(getSupplierProductsInit(id));
+  }, [dispatch, id]);
 
   const { profile, banks } = supplierProfile;
 
   const editProduct = (productId) => history.push(`/products/edit/${productId}`);
   const addProduct = () => history.push(`/products/add/${id}`);
+  const deleteProduct = (productId) => dispatch(deleteProductInit(productId, id));
 
   const addAccount = (params) => history.push(`/suppliers/profile/add-account/${id}?${params}`);
 
@@ -71,10 +70,11 @@ const SupplierProfile = (props) => {
       <section className='invoice' style={{ marginBottom: "3rem" }}>
         <ProductsTable
           columns={productColumns}
-          data={products}
+          data={supplierProducts}
           title='Productos asociados'
           actions={[
             { icon: () => <EditRounded fontSize='large' style={{ color: "#f0ad4e" }} />, onClick: (e, rowData) => editProduct(rowData.id) },
+            { icon: () => <DeleteOutline fontSize='large' style={{ color: "#ff4444" }} />, onClick: (e, rowData) => deleteProduct(rowData.id) },
             { icon: () => <AddBox color='primary' fontSize='large' />, isFreeAction: true, onClick: () => addProduct() },
           ]}
         />
@@ -102,21 +102,4 @@ const SupplierProfile = (props) => {
   );
 };
 
-SupplierProfile.propTypes = {
-  supplierProfile: PropTypes.object.isRequired,
-  products: PropTypes.array.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    supplierProfile: state.suppliers.profile,
-    products: state.products.supplierProducts,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  getSupplierProfile: (supplierId) => dispatch(actions.getSupplierProfileInit(supplierId)),
-  getSupplierProducts: (supplierId) => dispatch(actions.getSupplierProductsInit(supplierId)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SupplierProfile);
+export default SupplierProfile;
