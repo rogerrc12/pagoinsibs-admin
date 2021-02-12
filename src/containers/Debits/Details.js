@@ -145,7 +145,7 @@ const DebitDetail = ({ getDebitDetailsInit, processDebitFeeInit, getDebitFeesIni
         <h1>Cuotas Pendientes</h1>
       </section>
       <section className='invoice'>
-        <Cuotas debit_id={id} getDebitFees={getDebitFeesInit} remaining_amount={detail.remainingAmount} total_amount={detail.feeTotalAmount} />
+        <Cuotas debit_id={id} getDebitFees={getDebitFeesInit} remaining_amount={detail.remainingAmount} total_amount={detail.amount} />
       </section>
     </>
   );
