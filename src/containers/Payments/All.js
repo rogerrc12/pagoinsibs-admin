@@ -10,8 +10,8 @@ const PendingPayments = ({ getPaymentsInit, payments }) => {
     getPaymentsInit();
   }, [getPaymentsInit]);
 
-  const dolaresPayments = payments.filter((payment) => payment.currencyId === 2);
-  const bolivaresPayments = payments.filter((payment) => payment.currencyId === 1);
+  const dolaresPayments = payments.filter((payment) => payment.currencyId === 1);
+  const bolivaresPayments = payments.filter((payment) => payment.currencyId === 2);
 
   return (
     <>

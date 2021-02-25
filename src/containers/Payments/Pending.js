@@ -14,8 +14,8 @@ const PendingPayments = ({ getPaymentsInit, processBulkPaymentsInit, payments, m
   const { currencyType } = match.params;
   const { pendingPayments, processingPayments, error } = payments;
 
-  let pendingPaymentsList = pendingPayments.filter((payment) => (currencyType === "dolares" ? payment.currencyId === 2 : payment.currencyId === 1));
-  let processingPaymentsList = processingPayments.filter((payment) => (currencyType === "dolares" ? payment.currencyId === 2 : payment.currencyId === 1));
+  let pendingPaymentsList = pendingPayments.filter((payment) => (currencyType === "dolares" ? payment.currencyId === 1 : payment.currencyId === 2));
+  let processingPaymentsList = processingPayments.filter((payment) => (currencyType === "dolares" ? payment.currencyId === 1 : payment.currencyId === 2));
 
   return (
     <>

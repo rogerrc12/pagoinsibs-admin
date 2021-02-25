@@ -12,8 +12,8 @@ const PendingDebits = ({ getDebitsInit, debits, match }) => {
   const { currencyType } = match.params;
   const { allDebits } = debits;
 
-  const dolaresDebits = allDebits.filter((debit) => debit.currencyId === 2);
-  const bolivaresDebits = allDebits.filter((debit) => debit.currencyId === 1);
+  const dolaresDebits = allDebits.filter((debit) => debit.currencyId === 1);
+  const bolivaresDebits = allDebits.filter((debit) => debit.currencyId === 2);
 
   return (
     <>

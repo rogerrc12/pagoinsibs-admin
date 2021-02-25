@@ -14,8 +14,8 @@ const PendingDebits = ({ getDebitsInit, processBulkDebitsInit, debits, match }) 
   const { currencyType } = match.params;
   const { pendingDebits, processingDebits, error } = debits;
 
-  let pendingDebitsList = pendingDebits.filter((debit) => (currencyType === "dolares" ? debit.currencyId === 2 : debit.currencyId === 1));
-  let processingDebitsList = processingDebits.filter((debit) => (currencyType === "dolares" ? debit.currencyId === 2 : debit.currencyId === 1));
+  let pendingDebitsList = pendingDebits.filter((debit) => (currencyType === "dolares" ? debit.currencyId === 1 : debit.currencyId === 2));
+  let processingDebitsList = processingDebits.filter((debit) => (currencyType === "dolares" ? debit.currencyId === 1 : debit.currencyId === 2));
 
   return (
     <>

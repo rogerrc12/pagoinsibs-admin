@@ -54,7 +54,7 @@ function* getBanks() {
 function* generateReport({ values }) {
   const reportValues = { ...values };
 
-  if (values.reportType === "pending-bank") reportValues.currencyId = 1;
+  if (values.reportType === "pending-bank") reportValues.currencyId = 2;
 
   try {
     const res = yield axios.post(`/api/admin/reports/${values.reportType}`, reportValues, { responseType: "blob" });
