@@ -5,7 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 // REDUX
 import { connect } from "react-redux";
-import { loginUser } from "../../store/actions/auth";
+import { loginUserInit } from "../../store/actions/auth";
 
 const initialValues = { email: "", password: "" };
 const formSchema = Yup.object().shape({
@@ -15,7 +15,7 @@ const formSchema = Yup.object().shape({
     .matches(/^(?=.*\d)(?=.*[a-zA-Z])[A-Za-z\d!@#$%^*+=]{6,15}$/i, "Contraseña inválida."),
 });
 
-const Login = ({ loginUser, isAuthenticated, location }) => {
+const Login = ({ loginUserInit, isAuthenticated, isProcessing, location }) => {
   let from;
 
   if (location.state) {
@@ -33,8 +33,8 @@ const Login = ({ loginUser, isAuthenticated, location }) => {
         <div className='login-box-body'>
           <p className='login-box-msg'>Iniciar Sesión</p>
 
-          <Formik initialValues={initialValues} validationSchema={formSchema} onSubmit={(values) => loginUser(values)}>
-            {({ isSubmitting }) => (
+          <Formik initialValues={initialValues} validationSchema={formSchema} onSubmit={(values) => loginUserInit(values)}>
+            {({ isValid }) => (
               <Form>
                 <div className='form-group has-feedback'>
                   <Field type='text' className='form-control' name='email' placeholder='Usuario' />
@@ -60,12 +60,9 @@ const Login = ({ loginUser, isAuthenticated, location }) => {
                 </ErrorMessage>
                 <div className='row'>
                   <div className='col-xs-4'>
-                    <button
-                      type='submit'
-                      className={`btn btn-primary btn-large btn-flat ld-ext-right ${isSubmitting && "running"}`}
-                      disabled={isSubmitting}>
+                    <button type='submit' className={`btn btn-primary btn-large btn-flat ld-ext-right ${isProcessing && "running"}`} disabled={isProcessing || !isValid}>
                       Iniciar Sesión
-                      <div className='ld ld-ring ld-spin'></div>
+                      <span className='ld ld-ring ld-spin' />
                     </button>
                   </div>
                 </div>
@@ -79,7 +76,6 @@ const Login = ({ loginUser, isAuthenticated, location }) => {
 };
 
 Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
 };
@@ -87,8 +83,9 @@ Login.propTypes = {
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
+    isProcessing: state.auth.isProcessing,
     loading: state.loading.loading,
   };
 };
 
-export default connect(mapStateToProps, { loginUser })(Login);
+export default connect(mapStateToProps, { loginUserInit })(Login);

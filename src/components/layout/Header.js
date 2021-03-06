@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { NavLink, Link, withRouter } from "react-router-dom";
 // REDUX
 import { connect } from "react-redux";
-import { logout } from "../../store/actions/auth";
+import { logoutInit } from "../../store/actions/auth";
 
-const Header = ({ user, logout, pendingPayments, pendingDebits }) => {
+const Header = ({ user, logoutInit, pendingPayments, pendingDebits }) => {
   const totalTransactions = pendingPayments + pendingDebits;
 
   return (
@@ -90,7 +90,7 @@ const Header = ({ user, logout, pendingPayments, pendingDebits }) => {
                         className='btn btn-default btn-flat'
                         onClick={(e) => {
                           e.preventDefault();
-                          logout();
+                          logoutInit();
                         }}
                       >
                         cerrar sesión
@@ -105,7 +105,7 @@ const Header = ({ user, logout, pendingPayments, pendingDebits }) => {
                   href='/'
                   onClick={(e) => {
                     e.preventDefault();
-                    logout();
+                    logoutInit();
                   }}
                 >
                   <i className='fa fa-sign-out' />
@@ -133,4 +133,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { logout })(withRouter(Header));
+export default connect(mapStateToProps, { logoutInit })(withRouter(Header));

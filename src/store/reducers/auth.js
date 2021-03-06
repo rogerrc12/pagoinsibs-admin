@@ -4,22 +4,24 @@ const initialState = {
   token: localStorage.getItem("token"),
   isAuthenticated: false,
   user: null,
+  isProcessing: false,
 };
 
 export default function (state = initialState, action = {}) {
-  const { type, payload } = action;
+  const { type } = action;
 
   switch (type) {
+    case actionTypes.LOAD_USER:
+      return { ...state, isProcessing: true };
     case actionTypes.USER_LOADED:
-      return { ...state, isAuthenticated: true, user: payload };
+      return { ...state, isAuthenticated: true, isProcessing: false, user: action.user };
+    case actionTypes.LOGIN_INIT:
+      return { ...state, isProcessing: true };
     case actionTypes.LOGIN_SUCCESS:
-      localStorage.setItem("token", payload.token);
-      return { ...state, ...payload };
-    case actionTypes.LOGIN_FAIL:
+      return { ...state, token: action.token };
     case actionTypes.AUTH_ERROR:
-    case actionTypes.LOGOUT:
-      localStorage.removeItem("token");
-      return { ...state, user: null, isAuthenticated: false, token: null };
+    case actionTypes.LOGOUT_SUCCESS:
+      return { ...state, user: null, isAuthenticated: false, token: null, isProcessing: false };
     default:
       return state;
   }

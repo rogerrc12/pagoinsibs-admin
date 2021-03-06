@@ -1,48 +1,34 @@
-import axios from "../../helpers/axios";
 import * as actionTypes from "../constants";
-import history from "../../helpers/history";
-import { setAlert } from "./alert";
-import setAuthToken from "../../helpers/setAuthToken";
 
-// Login action
-export const loginUser = (userData) => async (dispatch) => {
-  dispatch({ type: actionTypes.SET_LOADING });
+export const loginUserInit = (values) => ({
+  type: actionTypes.LOGIN_INIT,
+  values,
+});
 
-  try {
-    const config = { headers: { "Content-Type": "application/json" } };
-
-    const body = JSON.stringify(userData);
-    const res = await axios.post("/api/admin/auth", body, config);
-
-    dispatch({ type: actionTypes.LOGIN_SUCCESS, payload: res.data });
-    dispatch({ type: actionTypes.REMOVE_LOADING });
-    return dispatch(loadUser());
-  } catch (error) {
-    const { message } = error.response.data;
-
-    if (message) dispatch(setAlert({ msg: message, icon: "error" }));
-
-    return dispatch({ type: actionTypes.LOGIN_FAIL });
-  }
-};
+export const loginUserSuccess = (token) => ({
+  type: actionTypes.LOGIN_SUCCESS,
+  token,
+});
 
 // Loading user data
-export const loadUser = () => async (dispatch) => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
+export const loadUser = () => ({
+  type: actionTypes.LOAD_USER,
+});
 
-  try {
-    const res = await axios.get("/api/admin/auth");
-
-    dispatch({ type: actionTypes.USER_LOADED, payload: res.data });
-  } catch (error) {
-    dispatch({ type: actionTypes.AUTH_ERROR });
-  }
-};
+export const userLoaded = (user) => ({
+  type: actionTypes.USER_LOADED,
+  user,
+});
 
 // Logout Action
-export const logout = () => (dispatch) => {
-  dispatch({ type: actionTypes.LOGOUT });
-  history.push("/");
-};
+export const logoutInit = () => ({
+  type: actionTypes.LOGOUT_INIT,
+});
+
+export const logoutSuccess = () => ({
+  type: actionTypes.LOGOUT_SUCCESS,
+});
+
+export const authError = () => ({
+  type: actionTypes.AUTH_ERROR,
+});

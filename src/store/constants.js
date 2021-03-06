@@ -1,13 +1,16 @@
 export const SET_LOADING = "SET_LOADING";
 export const REMOVE_LOADING = "REMOVE_LOADING";
 
+export const LOGIN_INIT = "LOGIN_INIT";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";
 
+export const LOAD_USER = "LOAD_USER";
 export const USER_LOADED = "USER_LOADED";
 export const AUTH_ERROR = "AUTH_ERROR";
 
-export const LOGOUT = "LOGOUT";
+export const LOGOUT_INIT = "LOGOUT_INIT";
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 
 export const SET_ALERT = "SET_ALERT";
 export const CLOSE_ALERT = "CLOSE_ALERT";
