@@ -9,7 +9,9 @@ import * as actions from "../../store/actions";
 const Add = ({ addSupplier, editSupplier, match, getSupplierProfile }) => {
   const { id } = match.params;
 
-  const { profile } = useSelector((state) => state.suppliers.profile);
+  console.log(id);
+
+  const profile = useSelector((state) => state.suppliers.profile);
 
   useEffect(() => {
     if (id) getSupplierProfile(id);
