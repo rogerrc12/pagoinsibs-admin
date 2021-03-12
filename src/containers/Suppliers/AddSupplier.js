@@ -1,15 +1,13 @@
-import React, { useEffect } from "react";
-import { Formik, Field, ErrorMessage, Form } from "formik";
-import { supplierValues } from "../../helpers/formValues";
-import { validateSupplierForm } from "../../helpers/validations";
+import React, { useEffect } from 'react';
+import { Formik, Field, ErrorMessage, Form } from 'formik';
+import { supplierValues } from '../../helpers/formValues';
+import { validateSupplierForm } from '../../helpers/validations';
 // REDUX
-import { connect, useSelector } from "react-redux";
-import * as actions from "../../store/actions";
+import { connect, useSelector } from 'react-redux';
+import * as actions from '../../store/actions';
 
 const Add = ({ addSupplier, editSupplier, match, getSupplierProfile }) => {
   const { id } = match.params;
-
-  console.log(id);
 
   const profile = useSelector((state) => state.suppliers.profile);
 
@@ -24,14 +22,14 @@ const Add = ({ addSupplier, editSupplier, match, getSupplierProfile }) => {
   return (
     <>
       <section className='content-header form-header'>
-        <h2 className='font-weight-bold'>{id ? "Editar" : "Agregar"} Comercio</h2>
+        <h2 className='font-weight-bold'>{id ? 'Editar' : 'Agregar'} Comercio</h2>
       </section>
       <section className='content'>
         <div className='row form-row'>
           <div className='col-md-6'>
             <div className='box box-primary'>
               {/* form start */}
-              <Formik initialValues={supplierValues(id ? profile : "")} validationSchema={validateSupplierForm} onSubmit={onSubmit} enableReinitialize>
+              <Formik initialValues={supplierValues(id ? profile : '')} validationSchema={validateSupplierForm} onSubmit={onSubmit} enableReinitialize>
                 {() => (
                   <Form>
                     <div className='box-body'>
@@ -195,7 +193,7 @@ const Add = ({ addSupplier, editSupplier, match, getSupplierProfile }) => {
                     </div>
                     <div className='box-footer'>
                       <button type='submit' className='btn btn-primary'>
-                        {id ? "Editar" : "Agregar"} comercio
+                        {id ? 'Editar' : 'Agregar'} comercio
                       </button>
                     </div>
                   </Form>

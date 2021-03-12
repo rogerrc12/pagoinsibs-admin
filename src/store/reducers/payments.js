@@ -1,4 +1,4 @@
-import * as types from "../constants";
+import * as types from '../constants';
 
 const initialState = {
   pendingPayments: [],
@@ -7,12 +7,12 @@ const initialState = {
   paymentDetails: {},
   pendingCount: 0,
   count: 0,
-  error: "",
+  error: '',
   processing: false,
   loading: true,
 };
 
-export default function (state = initialState, action = {}) {
+export default function paymentsReducer(state = initialState, action = {}) {
   const { type, payload } = action;
 
   switch (type) {
@@ -45,7 +45,7 @@ export default function (state = initialState, action = {}) {
       return { ...state, error: action.msg, processing: false, loading: false };
 
     case types.CLEAR_PAYMENTS_ERROR:
-      return { ...state, error: "" };
+      return { ...state, error: '' };
 
     default:
       return state;

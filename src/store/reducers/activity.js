@@ -1,4 +1,4 @@
-import * as actionTypes from "../constants";
+import * as actionTypes from '../constants';
 
 const initialState = {
   transfers: null,
@@ -9,11 +9,11 @@ const initialState = {
   banks: [],
   currencies: [],
   currencyData: {},
-  error: "",
+  error: '',
   isLoading: false,
 };
 
-export default function (state = initialState, action = {}) {
+export default function activityReducer(state = initialState, action = {}) {
   const { type } = action;
 
   switch (type) {

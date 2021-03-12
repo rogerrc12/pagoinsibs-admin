@@ -1,13 +1,13 @@
-import * as actionTypes from "../constants";
+import * as actionTypes from '../constants';
 
 const initialState = {
   suppliers: [],
   supplierProfile: { profile: {}, banks: [], payments: [] },
   supplierAccounts: {},
-  error: "",
+  error: '',
 };
 
-export default function (state = initialState, action = {}) {
+export default function suppliersReducer(state = initialState, action = {}) {
   switch (action.type) {
     case actionTypes.GET_SUPPLIERS_SUCCESS:
       return { ...state, suppliers: action.suppliers };

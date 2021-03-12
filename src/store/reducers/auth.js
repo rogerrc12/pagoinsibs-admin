@@ -1,13 +1,13 @@
-import * as actionTypes from "../constants";
+import * as actionTypes from '../constants';
 
 const initialState = {
-  token: localStorage.getItem("token"),
+  token: localStorage.getItem('token'),
   isAuthenticated: false,
   user: null,
   isProcessing: false,
 };
 
-export default function (state = initialState, action = {}) {
+export default function authReducer(state = initialState, action = {}) {
   const { type } = action;
 
   switch (type) {

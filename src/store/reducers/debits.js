@@ -1,4 +1,4 @@
-import * as types from "../constants";
+import * as types from '../constants';
 const initialstate = {
   pendingDebits: [],
   processingDebits: [],
@@ -9,10 +9,10 @@ const initialstate = {
   count: 0,
   processing: false,
   loading: true,
-  error: "",
+  error: '',
 };
 
-export default function (state = initialstate, action = {}) {
+export default function debitsReducer(state = initialstate, action = {}) {
   const { type } = action;
 
   switch (type) {
@@ -44,7 +44,7 @@ export default function (state = initialstate, action = {}) {
     case types.DEBITS_ERROR:
       return { ...state, error: action.msg, processing: false, loading: false };
     case types.CLEAR_DEBITS_ERROR:
-      return { ...state, error: "" };
+      return { ...state, error: '' };
 
     default:
       return state;

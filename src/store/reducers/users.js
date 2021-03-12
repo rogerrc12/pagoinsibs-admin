@@ -11,7 +11,7 @@ import {
   GET_SUBSCRIBERS_INIT,
   SUBSCRIBERS_ERROR,
   GET_SUBS_PROFILE_SUCCESS,
-} from "../constants";
+} from '../constants';
 
 const initialState = {
   subscribers: [],
@@ -20,10 +20,10 @@ const initialState = {
   userInfo: {},
   isLoading: true,
   isProcessing: false,
-  error: "",
+  error: '',
 };
 
-export default function (state = initialState, action = {}) {
+export default function usersReducer(state = initialState, action = {}) {
   const { type, payload } = action;
 
   switch (type) {

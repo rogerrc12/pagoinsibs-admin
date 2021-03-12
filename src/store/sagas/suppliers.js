@@ -1,13 +1,13 @@
-import { put, takeLatest, all, call } from "redux-saga/effects";
-import axios from "../../helpers/axios";
-import * as actions from "../actions";
-import * as actionTypes from "../constants";
-import history from "../../helpers/history";
-import Swal from "sweetalert2";
+import { put, takeLatest, all, call } from 'redux-saga/effects';
+import axios from '../../helpers/axios';
+import * as actions from '../actions';
+import * as actionTypes from '../constants';
+import history from '../../helpers/history';
+import Swal from 'sweetalert2';
 
 function* getSuppliers() {
   try {
-    const res = yield axios.get("/api/admin/suppliers");
+    const res = yield axios.get('/api/admin/suppliers');
     yield put(actions.getSuppliers(res.data));
   } catch (error) {
     yield put(actions.getSuppliersError());
@@ -25,11 +25,11 @@ function* getSupplierProfile(action) {
 
 function* addSupplier({ values }) {
   try {
-    const res = yield axios.post("/api/admin/suppliers", values);
+    const res = yield axios.post('/api/admin/suppliers', values);
     if (res.status === 200) {
       yield put(actions.addSupplierSuccess());
-      yield call([Swal, "fire"], "Exitoso", "Comercio agregado correctamente", "success");
-      yield call([history, "push"], "/suppliers");
+      yield call([Swal, 'fire'], 'Exitoso', 'Comercio agregado correctamente', 'success');
+      yield call([history, 'push'], '/suppliers');
     }
   } catch (error) {
     yield put(actions.supplierError(error.message));
@@ -41,8 +41,8 @@ function* editSupplier({ values, id }) {
     const res = yield axios.put(`/api/admin/suppliers/${id}`, values);
     if (res.status === 200) {
       yield put(actions.addSupplierSuccess());
-      yield call([Swal, "fire"], "Exitoso", "Comercio editado correctamente", "success");
-      yield call([history, "push"], "/suppliers");
+      yield call([Swal, 'fire'], 'Exitoso', 'Comercio editado correctamente', 'success');
+      yield call([history, 'push'], '/suppliers');
     }
   } catch (error) {
     yield put(actions.supplierError(error.message));
@@ -50,15 +50,15 @@ function* editSupplier({ values, id }) {
 }
 
 function* deleteSupplier({ supplier }) {
-  const result = yield call([Swal, "fire"], {
-    title: "Estas seguro?",
+  const result = yield call([Swal, 'fire'], {
+    title: 'Estas seguro?',
     text: `Eliminarás al comercio ${supplier.name}.`,
-    type: "warning",
+    type: 'warning',
     showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Si, eliminar!",
-    cancelButtonText: "Cancelar",
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, eliminar!',
+    cancelButtonText: 'Cancelar',
   });
 
   if (result.value) {
@@ -67,7 +67,7 @@ function* deleteSupplier({ supplier }) {
       if (res.status === 200) {
         yield put(actions.deleteSupplierSuccess());
         yield put(actions.getSuppliersInit());
-        yield call([Swal, "fire"], "Eliminado!", "El comercio ha sido eliminado correctamente.", "success");
+        yield call([Swal, 'fire'], 'Eliminado!', 'El comercio ha sido eliminado correctamente.', 'success');
       }
     } catch (error) {
       yield put(actions.supplierError(error.message));
@@ -79,8 +79,8 @@ function* addSupplierAccount(action) {
   const { values, supplierId } = action;
 
   try {
-    const res = yield axios.post(`/api/admin/suppliers/bank-account/${supplierId}`, values, { headers: { "Content-Type": "application/json" } });
-    yield put(actions.setAlert({ msg: res.data.message, icon: "success" }));
+    const res = yield axios.post(`/api/admin/suppliers/bank-account/${supplierId}`, values, { headers: { 'Content-Type': 'application/json' } });
+    yield put(actions.setAlert({ msg: res.data.message, icon: 'success' }));
     yield put(actions.addSupplierAccount());
     return history.push(`/suppliers/profile/${supplierId}`);
   } catch (error) {
@@ -99,7 +99,7 @@ function* getSupplierAccount(action) {
   }
 }
 
-export default function* () {
+export default function* suppliersSaga() {
   yield all([
     takeLatest(actionTypes.GET_SUPPLIERS_INIT, getSuppliers),
     takeLatest(actionTypes.GET_SUPPLIER_PROFILE_INIT, getSupplierProfile),

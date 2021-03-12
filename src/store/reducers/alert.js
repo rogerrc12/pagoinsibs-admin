@@ -1,11 +1,11 @@
-import { SET_ALERT, CLOSE_ALERT } from "../constants";
+import { SET_ALERT, CLOSE_ALERT } from '../constants';
 const initialState = {
-  iconType: "",
+  iconType: '',
   open: false,
-  message: "",
+  message: '',
 };
 
-export default function (state = initialState, action = {}) {
+export default function alertReducer(state = initialState, action = {}) {
   const { type, payload } = action;
   switch (type) {
     case SET_ALERT:

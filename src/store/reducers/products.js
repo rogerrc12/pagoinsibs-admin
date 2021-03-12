@@ -1,4 +1,4 @@
-import * as actionTypes from "../constants";
+import * as actionTypes from '../constants';
 
 const initialState = {
   products: {
@@ -7,10 +7,10 @@ const initialState = {
   },
   supplierProducts: [],
   productData: {},
-  error: "",
+  error: '',
 };
 
-export default function (state = initialState, action = {}) {
+export default function productsReducer(state = initialState, action = {}) {
   switch (action.type) {
     case actionTypes.GET_PRODUCTS_SUCCESS:
       return { ...state, products: action.products };

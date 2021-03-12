@@ -1,8 +1,8 @@
-import { all, put, takeEvery, call, delay } from "redux-saga/effects";
-import * as actions from "../actions/debits";
-import * as types from "../constants";
-import axios from "../../helpers/axios";
-import Swal from "sweetalert2";
+import { all, put, takeEvery, call, delay } from 'redux-saga/effects';
+import * as actions from '../actions/debits';
+import * as types from '../constants';
+import axios from '../../helpers/axios';
+import Swal from 'sweetalert2';
 
 function* getDebits(action) {
   const { status } = action;
@@ -52,7 +52,7 @@ function* processDebitFee(action) {
     if (res.status === 200) {
       yield put(actions.getDebitDetailsInit(id));
       yield put(actions.getDebitFeesInit(id));
-      yield call([Swal, "fire"], "Exitoso", "La cuota fue procesada correctamente.", "success");
+      yield call([Swal, 'fire'], 'Exitoso', 'La cuota fue procesada correctamente.', 'success');
     }
   } catch (error) {
     yield put(actions.debitsError(error.message));
@@ -61,11 +61,11 @@ function* processDebitFee(action) {
 
 function* processBulkDebits({ debits }) {
   try {
-    const res = yield axios.post("/api/admin/debits/process", { debits });
+    const res = yield axios.post('/api/admin/debits/process', { debits });
     if (res.status === 200) {
       yield put(actions.processBulkDebitsSuccess());
-      yield put(actions.getDebitsInit("pending"));
-      Swal.fire("Procesados", res.data.message, "success");
+      yield put(actions.getDebitsInit('pending'));
+      Swal.fire('Procesados', res.data.message, 'success');
     }
   } catch (error) {
     yield put(actions.debitsError(error.data ? error.data.message : error.message));
@@ -77,13 +77,13 @@ function* processBulkDebits({ debits }) {
 function* cancelDebit(action) {
   const { id } = action;
 
-  const result = yield call([Swal, "fire"], {
-    title: "¿Estás seguro?",
-    type: "warning",
-    html: "Estas a punto de cancelar la domiciliación y todas sus cuotas. Esta acción no se puede revertir.",
+  const result = yield call([Swal, 'fire'], {
+    title: '¿Estás seguro?',
+    type: 'warning',
+    html: 'Estas a punto de cancelar la domiciliación y todas sus cuotas. Esta acción no se puede revertir.',
     showCancelButton: true,
     confirmButtonText: `Si, continuar`,
-    cancelButtonText: "Cancelar",
+    cancelButtonText: 'Cancelar',
   });
 
   if (result.value) {
@@ -92,7 +92,7 @@ function* cancelDebit(action) {
       if (res.status === 200) {
         yield put(actions.getDebitDetailsInit(id));
         yield put(actions.getDebitFeesInit(id));
-        yield call([Swal, "fire"], "Exitoso", "La domiciliación y las cuotas restantes fueron canceladas correctamente.", "success");
+        yield call([Swal, 'fire'], 'Exitoso', 'La domiciliación y las cuotas restantes fueron canceladas correctamente.', 'success');
       }
     } catch (error) {
       yield put(actions.debitsError(error.message));
@@ -102,7 +102,7 @@ function* cancelDebit(action) {
   }
 }
 
-export default function* () {
+export default function* debitsSaga() {
   yield all([
     takeEvery(types.GET_DEBITS_INIT, getDebits),
     takeEvery(types.GET_DEBIT_DETAILS_INIT, getDebitDetails),

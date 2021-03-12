@@ -1,9 +1,9 @@
-import { put, takeLatest, all, call } from "redux-saga/effects";
-import * as actionTypes from "../constants";
-import * as actions from "../actions";
-import axios from "../../helpers/axios";
-import history from "../../helpers/history";
-import Swal from "sweetalert2";
+import { put, takeLatest, all, call } from 'redux-saga/effects';
+import * as actionTypes from '../constants';
+import * as actions from '../actions';
+import axios from '../../helpers/axios';
+import history from '../../helpers/history';
+import Swal from 'sweetalert2';
 
 function* getProducts() {
   try {
@@ -39,7 +39,7 @@ function* addProduct({ supplierId, values }) {
     const res = yield axios.post(`/api/admin/products/${supplierId}`, values);
 
     if (res.status === 200) {
-      yield Swal.fire("Exitoso", res.data.message, "success");
+      yield Swal.fire('Exitoso', res.data.message, 'success');
       yield call(history.push, `/suppliers/profile/${supplierId}`);
     }
   } catch (error) {
@@ -51,7 +51,7 @@ function* editProduct({ productId, values }) {
   try {
     const res = yield axios.put(`/api/admin/products/${productId}`, values);
     if (res.status === 200) {
-      yield Swal.fire("Exitoso", res.data.message, "success");
+      yield Swal.fire('Exitoso', res.data.message, 'success');
       yield call(history.push, `/products`);
     }
   } catch (error) {
@@ -62,9 +62,9 @@ function* editProduct({ productId, values }) {
 function* deleteProduct({ productId, supplierId }) {
   try {
     const result = yield Swal.fire({
-      title: "¿Deseas eliminar este producto?",
-      text: "Esta acción no puede ser revertida",
-      type: "warning",
+      title: '¿Deseas eliminar este producto?',
+      text: 'Esta acción no puede ser revertida',
+      type: 'warning',
       showCancelButton: true,
       confirmButtonText: `Si, continuar`,
       cancelButtonText: `No, cancelar`,
@@ -72,14 +72,14 @@ function* deleteProduct({ productId, supplierId }) {
     if (result.value) {
       yield axios.delete(`/api/admin/products/${productId}`);
       yield put(actions.getSupplierProductsInit(supplierId));
-      yield Swal.fire("Producto eliminado!", "El producto fue eliminado correctamente", "success");
+      yield Swal.fire('Producto eliminado!', 'El producto fue eliminado correctamente', 'success');
     }
   } catch (error) {
     yield put(actions.productsError(error.data ? error.data.message : error.message));
   }
 }
 
-export default function* () {
+export default function* productsSaga() {
   yield all([
     takeLatest(actionTypes.GET_PRODUCTS_INIT, getProducts),
     takeLatest(actionTypes.GET_PRODUCT_DATA_INIT, getProductData),

@@ -1,8 +1,8 @@
-import { put, takeEvery, all, call, delay } from "redux-saga/effects";
-import * as actions from "../actions/payments";
-import * as types from "../constants";
-import axios from "../../helpers/axios";
-import Swal from "sweetalert2";
+import { put, takeEvery, all, call, delay } from 'redux-saga/effects';
+import * as actions from '../actions/payments';
+import * as types from '../constants';
+import axios from '../../helpers/axios';
+import Swal from 'sweetalert2';
 
 function* getPayments(action) {
   const { status } = action;
@@ -40,7 +40,7 @@ function* processPayment(action) {
     if (res.status === 200) {
       yield put(actions.processPaymentSuccess());
       yield put(actions.getPaymentDetailsInit(id));
-      yield call([Swal, "fire"], "Exitoso", "El pago ha sido procesado exitosamente!", "success");
+      yield call([Swal, 'fire'], 'Exitoso', 'El pago ha sido procesado exitosamente!', 'success');
     }
   } catch (error) {
     yield put(actions.paymentsError(error.message));
@@ -49,12 +49,12 @@ function* processPayment(action) {
 
 function* processBulkPayments({ payments }) {
   try {
-    const res = yield axios.post("/api/admin/payments/process", { payments });
+    const res = yield axios.post('/api/admin/payments/process', { payments });
     console.log(res);
     if (res.status === 200) {
       yield put(actions.processBulkPaymentsSuccess());
-      yield put(actions.getPaymentsInit("pending"));
-      Swal.fire("Procesados!", res.data.message, "success");
+      yield put(actions.getPaymentsInit('pending'));
+      Swal.fire('Procesados!', res.data.message, 'success');
     }
   } catch (error) {
     yield put(actions.paymentsError(error.data ? error.data.message : error.message));
@@ -66,13 +66,13 @@ function* processBulkPayments({ payments }) {
 function* cancelPayment(action) {
   const { id } = action;
 
-  const result = yield call([Swal, "fire"], {
-    title: "¿Estás seguro?",
-    type: "warning",
-    html: "Estas a punto de cancelar el pago. Esta acción no se puede revertir.",
+  const result = yield call([Swal, 'fire'], {
+    title: '¿Estás seguro?',
+    type: 'warning',
+    html: 'Estas a punto de cancelar el pago. Esta acción no se puede revertir.',
     showCancelButton: true,
     confirmButtonText: `Si, continuar`,
-    cancelButtonText: "Cancelar",
+    cancelButtonText: 'Cancelar',
   });
 
   if (result.value) {
@@ -81,7 +81,7 @@ function* cancelPayment(action) {
       if (res.status === 200) {
         yield put(actions.cancelPaymentSuccess());
         yield put(actions.getPaymentDetailsInit(id));
-        yield call([Swal, "fire"], "Exitoso", "El pago ha sido cancelado.", "success");
+        yield call([Swal, 'fire'], 'Exitoso', 'El pago ha sido cancelado.', 'success');
       }
     } catch (error) {
       yield put(actions.paymentsError(error.message));
@@ -91,7 +91,7 @@ function* cancelPayment(action) {
   }
 }
 
-export default function* () {
+export default function* paymentsSaga() {
   yield all([
     takeEvery(types.GET_PAYMENTS_INIT, getPayments),
     takeEvery(types.GET_PAYMENT_DETAILS_INIT, getPaymentDetails),

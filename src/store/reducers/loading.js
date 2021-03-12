@@ -1,7 +1,7 @@
-import { SET_LOADING, REMOVE_LOADING } from "..//constants";
+import { SET_LOADING, REMOVE_LOADING } from '..//constants';
 const initialState = { loading: false };
 
-export default function (state = initialState, action = {}) {
+export default function loadingReducer(state = initialState, action = {}) {
   const { type } = action;
 
   switch (type) {

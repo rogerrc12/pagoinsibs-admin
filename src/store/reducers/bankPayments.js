@@ -1,10 +1,10 @@
-import { GET_BANK_PAYMENTS, GET_BANK_PAYMENTS_ERROR } from "../constants";
+import { GET_BANK_PAYMENTS, GET_BANK_PAYMENTS_ERROR } from '../constants';
 
 const initialState = {
   bank_payments: [],
 };
 
-export default function (state = initialState, action = {}) {
+export default function bankPaymentsReducer(state = initialState, action = {}) {
   const { type, payload } = action;
 
   switch (type) {
