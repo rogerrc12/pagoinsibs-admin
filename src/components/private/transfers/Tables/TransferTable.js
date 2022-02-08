@@ -47,36 +47,36 @@ const useStyles1 = makeStyles((theme) => ({
 function TablePaginationActions(props) {
   const classes = useStyles1();
   const theme = useTheme();
-  const { count, page, rowsPerPage, onChangePage } = props;
+  const { count, page, rowsPerPage, onPageChange } = props;
 
   const handleFirstPageButtonClick = (event) => {
-    onChangePage(event, 0);
+    onPageChange(event, 0);
   };
 
   const handleBackButtonClick = (event) => {
-    onChangePage(event, page - 1);
+    onPageChange(event, page - 1);
   };
 
   const handleNextButtonClick = (event) => {
-    onChangePage(event, page + 1);
+    onPageChange(event, page + 1);
   };
 
   const handleLastPageButtonClick = (event) => {
-    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
 
   return (
     <div className={classes.root}>
-      <IconButton onClick={handleFirstPageButtonClick} disabled={page === 0} aria-label='first page'>
+      <IconButton onClick={handleFirstPageButtonClick} disabled={page === 0} aria-label="first page">
         {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
-      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label='previous page'>
+      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
         {theme.direction === "rtl" ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
       </IconButton>
-      <IconButton onClick={handleNextButtonClick} disabled={page >= Math.ceil(count / rowsPerPage) - 1} aria-label='next page'>
+      <IconButton onClick={handleNextButtonClick} disabled={page >= Math.ceil(count / rowsPerPage) - 1} aria-label="next page">
         {theme.direction === "rtl" ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
       </IconButton>
-      <IconButton onClick={handleLastPageButtonClick} disabled={page >= Math.ceil(count / rowsPerPage) - 1} aria-label='last page'>
+      <IconButton onClick={handleLastPageButtonClick} disabled={page >= Math.ceil(count / rowsPerPage) - 1} aria-label="last page">
         {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </div>
@@ -85,7 +85,7 @@ function TablePaginationActions(props) {
 
 TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
-  onChangePage: PropTypes.func.isRequired,
+  onPageChange: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
 };
@@ -138,11 +138,11 @@ const TransferTable = ({ loadTransfers, transfers }) => {
 
   return (
     <>
-      <section className='content-header'>
-        <h2 className='text-uppercase font-weight-bold'>Envios de dinero</h2>
-        <div className='search-table'>
+      <section className="content-header">
+        <h2 className="text-uppercase font-weight-bold">Envios de dinero</h2>
+        <div className="search-table">
           <FormControl className={classes.formControl}>
-            <InputLabel shrink htmlFor='filter'>
+            <InputLabel shrink htmlFor="filter">
               Buscar por:
             </InputLabel>
             <NativeSelect
@@ -151,29 +151,30 @@ const TransferTable = ({ loadTransfers, transfers }) => {
               inputProps={{
                 name: "select",
                 id: "filter",
-              }}>
-              <option value='status'>Estado</option>
-              <option value='date_issued'>Fecha generada</option>
-              <option value='sender_cedula'>Cédula del emisor</option>
+              }}
+            >
+              <option value="status">Estado</option>
+              <option value="date_issued">Fecha generada</option>
+              <option value="sender_cedula">Cédula del emisor</option>
             </NativeSelect>
             <FormHelperText>Filtra la busqueda según la opción</FormHelperText>
           </FormControl>
 
           <FormControl className={classes.formControl}>
             <TextField
-              id='outlined-search'
-              label='Buscar'
-              type='search'
+              id="outlined-search"
+              label="Buscar"
+              type="search"
               className={classes.textField}
-              variant='outlined'
+              variant="outlined"
               value={query}
               onChange={(e) => setFilterOptions({ ...filterOptions, query: e.target.value })}
             />
           </FormControl>
         </div>
       </section>
-      <section className='content'>
-        <Paper className='activity-table'>
+      <section className="content">
+        <Paper className="activity-table">
           <div style={{ maxHeight: "440px", overflow: "auto", width: "100%" }}>
             <Table stickyHeader>
               <TableHead>
@@ -189,20 +190,18 @@ const TransferTable = ({ loadTransfers, transfers }) => {
                 {filteredTransfers.map((transfer) => (
                   <TableRow key={transfer.id}>
                     <TableCell className={"status " + transfer.status}>{transfer.status}</TableCell>
-                    <TableCell>
-                      {Number(transfer.amount).toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Bs.
-                    </TableCell>
+                    <TableCell>{Number(transfer.amount).toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Bs.</TableCell>
                     <TableCell>{transfer.description}</TableCell>
                     <TableCell>
-                      <Moment format='DD/MM/YYYY hh:mm a'>{transfer.date_issued}</Moment>
+                      <Moment format="DD/MM/YYYY hh:mm a">{transfer.date_issued}</Moment>
                     </TableCell>
                     <TableCell>{transfer.sender_fname + " " + transfer.sender_lname}</TableCell>
                     <TableCell>{transfer.sender_cedula}</TableCell>
                     <TableCell>{transfer.receiver_fname + " " + transfer.receiver_lname}</TableCell>
-                    <TableCell className='tableCell-actions'>
-                      <Link className='table-button' to={`/users-transfers/detail/${transfer.id}`}>
+                    <TableCell className="tableCell-actions">
+                      <Link className="table-button" to={`/users-transfers/detail/${transfer.id}`}>
                         {transfer.status === "pendiente" || transfer.status === "procesando" ? "Procesar" : "Detalle"}
-                        <CheckBox color='action' fontSize='large' />
+                        <CheckBox color="action" fontSize="large" />
                       </Link>
                     </TableCell>
                   </TableRow>
@@ -225,9 +224,9 @@ const TransferTable = ({ loadTransfers, transfers }) => {
                       inputProps: { "aria-label": "Filas por hoja" },
                       native: true,
                     }}
-                    labelRowsPerPage='Entradas por página:'
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    labelRowsPerPage="Entradas por página:"
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
                     ActionsComponent={TablePaginationActions}
                   />
                 </TableRow>

@@ -15,6 +15,7 @@ function* setAuthData(data) {
 
 function* loadUser() {
   const authData = yield call([localStorage, "getItem"], "authData");
+
   if (!authData) return yield call(logout);
 
   const { token, expTime } = JSON.parse(authData);
@@ -36,7 +37,8 @@ function* loginUser({ values }) {
   try {
     const res = yield axios.post("/api/admin/auth", values);
     if (res.status === 200) {
-      yield call(setAuthData, res.data);
+      const authData = { token: res.data.token, expiresIn: 3600 };
+      yield call(setAuthData, authData);
       yield put(loginUserSuccess(res.data.token));
       yield call(loadUser);
     }

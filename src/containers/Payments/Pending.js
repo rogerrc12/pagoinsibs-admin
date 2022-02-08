@@ -19,32 +19,32 @@ const PendingPayments = ({ getPaymentsInit, processBulkPaymentsInit, payments, m
 
   return (
     <>
-      <section className='content-header'>
-        <div className='section-title'>
+      <section className="content-header">
+        <div className="section-title">
           <h2>Pagos Pendientes</h2>
         </div>
       </section>
-      <section className='content'>
+      <section className="content">
         <PaymentsTable
-          title='Pendientes'
+          title="Pendientes"
           getPayments={getPaymentsInit}
           processPayments={processBulkPaymentsInit}
-          tableType='pending'
+          tableType="pending"
           type={currencyType}
           data={pendingPaymentsList}
         />
       </section>
 
-      <section className='content-header'>
-        <div className='section-title'>
+      <section className="content-header">
+        <div className="section-title">
           <h2>Pagos Procesandose</h2>
         </div>
       </section>
-      <section className='content'>
-        <PaymentsTable title='Procesandose' getPayments={getPaymentsInit} type={currencyType} data={processingPaymentsList} />
+      <section className="content">
+        <PaymentsTable title="Procesandose" getPayments={getPaymentsInit} type={currencyType} data={processingPaymentsList} />
       </section>
       {error && (
-        <Alert severity='error' className='Alert' variant='filled'>
+        <Alert severity="error" className="Alert" variant="filled">
           {error}
         </Alert>
       )}

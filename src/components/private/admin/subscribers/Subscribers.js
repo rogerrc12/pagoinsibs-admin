@@ -53,13 +53,13 @@ const Subscribers = ({ getSubscribers, subscribers, match }) => {
 
   return (
     <Fragment>
-      <section className='content-header'>
-        <h2 className='text-uppercase font-weight-bold'>Usuarios del Administrador</h2>
+      <section className="content-header">
+        <h2 className="text-uppercase font-weight-bold">Usuarios del Administrador</h2>
       </section>
-      <section className='content'>
+      <section className="content">
         <Paper className={classes.root}>
           <div className={classes.tableWrapper}>
-            <Table className={classes.table} aria-label='custom pagination table'>
+            <Table className={classes.table} aria-label="custom pagination table">
               <TableHead>
                 <TableRow>
                   <TableCell>Ver perfil</TableCell>
@@ -74,18 +74,18 @@ const Subscribers = ({ getSubscribers, subscribers, match }) => {
                 {subscribers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((subscriber) => (
                   <TableRow key={subscriber.id} id={subscriber.id}>
                     <TableCell>
-                      <NavLink to={match.url + "/profile/" + subscriber.id} className='action-button__table'>
-                        <Visibility color='action' fontSize='large' />
+                      <NavLink to={match.url + "/profile/" + subscriber.id} className="action-button__table">
+                        <Visibility color="action" fontSize="large" />
                       </NavLink>
                     </TableCell>
-                    <TableCell component='th' scope='row'>
+                    <TableCell component="th" scope="row">
                       {subscriber.firstName + " " + subscriber.lastName}
                     </TableCell>
                     <TableCell>{subscriber.cedula}</TableCell>
                     <TableCell>{subscriber.email}</TableCell>
                     <TableCell>{subscriber.username}</TableCell>
                     <TableCell>
-                      <Moment format='DD/MM/YYYY'>{subscriber.joined}</Moment>
+                      <Moment format="DD/MM/YYYY">{subscriber.joined}</Moment>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -108,9 +108,9 @@ const Subscribers = ({ getSubscribers, subscribers, match }) => {
                       inputProps: { "aria-label": "entradas por página" },
                       native: true,
                     }}
-                    labelRowsPerPage='Entradas por página:'
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    labelRowsPerPage="Entradas por página:"
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
                     ActionsComponent={TablePaginationActions}
                   />
                 </TableRow>
